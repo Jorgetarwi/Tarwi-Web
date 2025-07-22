@@ -677,36 +677,54 @@
     @media (max-width: 600px) {
       .HubBilleteFusion_container { width: 98vw; height: 320px; }
       .fusion-icon, .hub-billete-fusion .billete-fusion-svg { width: 44px; height: 44px; }
-      /* Ajustar círculos de métricas (Salary, Target Bonus, New-Hire Equity) */
-      .Hero_container > div > div[style*='background:#fff'] {
-        min-width: 0 !important;
-        max-width: 120px !important;
+      /* Métricas: Salary, Target Bonus, New-Hire Equity */
+      .Hero_container > div > div[style*='display:flex'][style*='gap:32px'] {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin: 0 auto 18px auto !important;
         width: 100% !important;
+        max-width: 100vw !important;
+      }
+      .Hero_container > div > div[style*='background:#fff'] {
+        min-width: 90px !important;
+        max-width: 120px !important;
+        width: 30vw !important;
         height: auto !important;
-        padding: 10px 6px !important;
-        margin: 0 4px !important;
+        padding: 10px 4px !important;
+        margin: 0 2vw !important;
         box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
       .Hero_container > div > div[style*='background:#fff'] span {
-        font-size: 0.85rem !important;
+        font-size: 0.95rem !important;
+        text-align: center !important;
       }
-      /* Ajustar SVGs circulares de How it works */
-      .HowItWorks_card svg {
-        width: 90px !important;
-        height: 90px !important;
-        max-width: 90px !important;
-        max-height: 90px !important;
-        display: block;
-        margin: 0 auto 12px auto !important;
-      }
+      /* SVGs circulares de How it works */
       .HowItWorks_card > div[style*='background:#fff'] {
-        width: 108px !important;
-        height: 108px !important;
+        width: 80px !important;
+        height: 80px !important;
         min-width: 0 !important;
-        max-width: 108px !important;
-        margin: 0 auto 12px auto !important;
+        max-width: 80px !important;
+        margin: 0 auto 10px auto !important;
         box-sizing: border-box !important;
         padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .HowItWorks_card svg {
+        width: 48px !important;
+        height: 48px !important;
+        max-width: 48px !important;
+        max-height: 48px !important;
+        display: block;
+        margin: 0 auto !important;
       }
     }
     .nav-dropdown {
