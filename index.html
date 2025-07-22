@@ -23,6 +23,22 @@
       document.querySelectorAll('.fade-card').forEach(el => observer.observe(el));
     });
   </script>
+  <script>
+    // Eliminar estilos inline problemáticos en mobile
+    if (window.innerWidth <= 600) {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[style]').forEach(function(el) {
+          el.style.minWidth = '';
+          el.style.maxWidth = '';
+          el.style.width = '';
+          el.style.height = '';
+          el.style.gap = '';
+          el.style.margin = '';
+          el.style.padding = '';
+        });
+      });
+    }
+  </script>
   <style>
     :root {
       --verde-oscuro: #234236;
