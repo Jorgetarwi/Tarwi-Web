@@ -23,22 +23,6 @@
       document.querySelectorAll('.fade-card').forEach(el => observer.observe(el));
     });
   </script>
-  <script>
-    // Eliminar estilos inline problemáticos en mobile
-    if (window.innerWidth <= 600) {
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('[style]').forEach(function(el) {
-          el.style.minWidth = '';
-          el.style.maxWidth = '';
-          el.style.width = '';
-          el.style.height = '';
-          el.style.gap = '';
-          el.style.margin = '';
-          el.style.padding = '';
-        });
-      });
-    }
-  </script>
   <style>
     :root {
       --verde-oscuro: #234236;
@@ -391,178 +375,18 @@
       .Hero_container { flex-direction: column; gap: 32px; }
     }
     @media (max-width: 900px) {
-      .Header_container, .Hero_container, .Platform_container, .HowItWorks_container, .Industries_container, .Resources_container {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 24px !important;
-        padding-left: 8px !important;
-        padding-right: 8px !important;
-      }
-      .Footer_root > div {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 24px !important;
-      }
-      .Footer_root .Footer_container {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 24px !important;
-      }
-      .Footer_root .Footer_container > div {
-        min-width: 0 !important;
-        width: 100% !important;
-        text-align: left !important;
-        margin-bottom: 18px !important;
-      }
-      .Footer_root .Footer_container > div > div {
-        text-align: left !important;
-      }
+      .Hero_container { flex-direction: column; gap: 32px; padding: 0 12px; }
+      .Hero_image { min-width: 180px; max-width: 320px; }
+      .Platform_grid, .HowItWorks_grid, .Resources_grid, .Industries_grid { grid-template-columns: 1fr; }
+      .Platform_root, .HowItWorks_root, .Industries_root, .Resources_root { padding: 32px 0 24px 0; }
+      .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title { font-size: 1.2rem; margin-bottom: 18px; }
+      .Platform_card, .HowItWorks_card, .Resources_card { padding: 24px 14px 20px 14px; }
+      .Industries_card { padding: 20px 0; }
     }
     @media (max-width: 600px) {
-      html, body {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        overflow-x: hidden !important;
-      }
-      /* Eliminar restricciones de ancho, alto, gap, margin y padding en todos los contenedores y tarjetas inline */
-      [style*="min-width"], [style*="max-width"], [style*="width"], [style*="height"], [style*="gap"], [style*="margin"], [style*="padding"] {
-        min-width: 0 !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        height: auto !important;
-        gap: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
-        display: block !important;
-      }
-      /* Forzar display:block y width:100% en todos los divs y secciones principales */
-      div, section, header, footer, main, article, aside, nav {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        display: block !important;
-        overflow-x: hidden !important;
-      }
-      /* Forzar una sola columna en grids y flex */
-      .Platform_grid, .HowItWorks_grid, .Resources_grid, .Industries_grid, .Footer_container {
-        display: block !important;
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-      }
-      /* Forzar imágenes y SVGs fluidos */
-      img, svg {
-        width: 100% !important;
-        height: auto !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        display: block !important;
-        margin: 0 auto !important;
-      }
-      /* Ajustar títulos y textos para que hagan wrap */
-      .Hero_title {
-        font-size: 2.1rem !important;
-        font-weight: 900 !important;
-        margin-bottom: 16px !important;
-        line-height: 1.13 !important;
-        text-align: left !important;
-      }
-      .Hero_desc {
-        font-size: 1.08rem !important;
-        font-weight: 500 !important;
-        margin-bottom: 24px !important;
-        color: var(--gris-claro) !important;
-        text-align: left !important;
-      }
-      .Platform_grid, .HowItWorks_grid, .Resources_grid, .Industries_grid {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 18px !important;
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        overflow-x: hidden !important;
-      }
-      .Platform_card, .HowItWorks_card, .Resources_card, .Industries_card {
-        min-width: 0 !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        overflow-x: hidden !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      .Industries_grid > div {
-        min-width: 0 !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        margin: 0 auto 0 auto !important;
-        overflow-x: hidden !important;
-      }
-      .Hero_image, .HubBilleteFusion_container {
-        min-width: 0 !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        height: auto !important;
-        box-sizing: border-box !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin: 0 auto !important;
-        overflow-x: hidden !important;
-        padding: 0 !important;
-      }
-      .hub-billete-fusion .billete-fusion-svg, .Hero_image svg {
-        width: 100% !important;
-        height: auto !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        display: block !important;
-        margin: 0 auto !important;
-      }
-      .HowItWorks_grid {
-        flex-wrap: wrap !important;
-        justify-content: flex-start !important;
-        align-items: stretch !important;
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-      }
-      .HowItWorks_card {
-        min-width: 0 !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        overflow-x: hidden !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      .Footer_root, .Footer_container {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        overflow-x: hidden !important;
-        display: block !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-      }
-      .Footer_root > div, .Footer_container > div {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        overflow-x: hidden !important;
-        display: block !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      .HubBilleteFusion_container { width: 98vw; height: 320px; }
-      .fusion-icon, .hub-billete-fusion .billete-fusion-svg { width: 44px; height: 44px; }
+      .Header_container { padding: 0 8px; }
+      .Hero_container { padding: 0 4px; }
+      .Platform_container, .HowItWorks_container, .Industries_container, .Resources_container { padding: 0 4px; }
     }
     body, .Header_logo span, .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
       font-family: 'Inter', 'Poppins', Arial, sans-serif !important;
@@ -677,56 +501,6 @@
     @media (max-width: 600px) {
       .HubBilleteFusion_container { width: 98vw; height: 320px; }
       .fusion-icon, .hub-billete-fusion .billete-fusion-svg { width: 44px; height: 44px; }
-      /* Métricas: Salary, Target Bonus, New-Hire Equity */
-      .metric-row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: stretch;
-        gap: 10px;
-        margin: 0 auto 18px auto;
-        width: 100%;
-        max-width: 100vw;
-      }
-      .metric-card {
-        min-width: 90px;
-        max-width: 120px;
-        width: 30vw;
-        height: auto;
-        padding: 10px 4px;
-        margin: 0 2vw;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      .metric-card span {
-        font-size: 0.95rem !important;
-        text-align: center !important;
-      }
-      /* SVGs circulares de How it works */
-      .howitworks-svg {
-        width: 80px !important;
-        height: 80px !important;
-        min-width: 0 !important;
-        max-width: 80px !important;
-        margin: 0 auto 10px auto !important;
-        box-sizing: border-box !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-      .howitworks-svg svg {
-        width: 48px !important;
-        height: 48px !important;
-        max-width: 48px !important;
-        max-height: 48px !important;
-        display: block;
-        margin: 0 auto !important;
-      }
     }
     .nav-dropdown {
       position: relative;
@@ -909,16 +683,16 @@
             <text x="280" y="80" fill="#fff" font-size="18" font-family="Montserrat,Arial,sans-serif" text-anchor="middle">p75</text>
           </svg>
           <!-- Cuadros de métricas perfectamente alineados y textos ajustados -->
-          <div class="metric-row">
-            <div class="metric-card" style="background:#fff;border-radius:22px;box-shadow:0 2px 16px #23423611;">
+          <div style="display:flex;gap:32px;margin-top:12px;width:100%;justify-content:center;align-items:center;">
+            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
               <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">Salary</span>
               <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$185K</span>
             </div>
-            <div class="metric-card" style="background:#fff;border-radius:22px;box-shadow:0 2px 16px #23423611;">
+            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
               <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">Target Bonus</span>
               <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$21K</span>
             </div>
-            <div class="metric-card" style="background:#fff;border-radius:22px;box-shadow:0 2px 16px #23423611;">
+            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
               <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">New-Hire Equity</span>
               <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$197K</span>
             </div>
