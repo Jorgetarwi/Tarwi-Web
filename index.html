@@ -678,35 +678,36 @@
       .HubBilleteFusion_container { width: 98vw; height: 320px; }
       .fusion-icon, .hub-billete-fusion .billete-fusion-svg { width: 44px; height: 44px; }
       /* Métricas: Salary, Target Bonus, New-Hire Equity */
-      .Hero_container > div > div[style*='display:flex'][style*='gap:32px'] {
-        flex-direction: row !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        align-items: stretch !important;
-        gap: 10px !important;
-        margin: 0 auto 18px auto !important;
-        width: 100% !important;
-        max-width: 100vw !important;
+      .metric-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 10px;
+        margin: 0 auto 18px auto;
+        width: 100%;
+        max-width: 100vw;
       }
-      .Hero_container > div > div[style*='background:#fff'] {
-        min-width: 90px !important;
-        max-width: 120px !important;
-        width: 30vw !important;
-        height: auto !important;
-        padding: 10px 4px !important;
-        margin: 0 2vw !important;
-        box-sizing: border-box !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
+      .metric-card {
+        min-width: 90px;
+        max-width: 120px;
+        width: 30vw;
+        height: auto;
+        padding: 10px 4px;
+        margin: 0 2vw;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
-      .Hero_container > div > div[style*='background:#fff'] span {
+      .metric-card span {
         font-size: 0.95rem !important;
         text-align: center !important;
       }
       /* SVGs circulares de How it works */
-      .HowItWorks_card > div[style*='background:#fff'] {
+      .howitworks-svg {
         width: 80px !important;
         height: 80px !important;
         min-width: 0 !important;
@@ -718,7 +719,7 @@
         align-items: center !important;
         justify-content: center !important;
       }
-      .HowItWorks_card svg {
+      .howitworks-svg svg {
         width: 48px !important;
         height: 48px !important;
         max-width: 48px !important;
@@ -909,15 +910,15 @@
           </svg>
           <!-- Cuadros de métricas perfectamente alineados y textos ajustados -->
           <div style="display:flex;gap:32px;margin-top:12px;width:100%;justify-content:center;align-items:center;">
-            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
+            <div class="metric-card" style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
               <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">Salary</span>
               <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$185K</span>
             </div>
-            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
+            <div class="metric-card" style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
               <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">Target Bonus</span>
               <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$21K</span>
             </div>
-            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
+            <div class="metric-card" style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
               <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">New-Hire Equity</span>
               <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$197K</span>
             </div>
