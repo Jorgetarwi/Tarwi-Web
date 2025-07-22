@@ -409,6 +409,13 @@
         max-width: 100% !important;
         overflow-x: hidden !important;
       }
+      /* Eliminar restricciones de ancho en todos los contenedores y tarjetas */
+      [style*="min-width"], [style*="max-width"], [style*="width:100%"], [style*="width: 100%"], [style*="width:440px"], [style*="width:520px"], [style*="width:700px"], [style*="width:320px"], [style*="width:250px"], [style*="width:220px"] {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
       .Header_container, .Hero_container, .Platform_container, .HowItWorks_container, .Industries_container, .Resources_container {
         width: 100% !important;
         min-width: 0 !important;
@@ -427,6 +434,8 @@
         max-width: 100% !important;
         overflow-x: hidden !important;
         box-sizing: border-box !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
       .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
         word-break: break-word !important;
@@ -455,6 +464,8 @@
         width: 100% !important;
         box-sizing: border-box !important;
         overflow-x: hidden !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
       }
       .Industries_grid > div {
         min-width: 0 !important;
@@ -474,6 +485,7 @@
         justify-content: center !important;
         margin: 0 auto !important;
         overflow-x: hidden !important;
+        padding: 0 !important;
       }
       .hub-billete-fusion .billete-fusion-svg, .Hero_image svg {
         width: 100% !important;
@@ -497,6 +509,8 @@
         width: 100% !important;
         box-sizing: border-box !important;
         overflow-x: hidden !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
       }
       .Footer_root, .Footer_container {
         width: 100% !important;
@@ -505,6 +519,8 @@
         box-sizing: border-box !important;
         overflow-x: hidden !important;
         display: block !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
       .Footer_root > div, .Footer_container > div {
         width: 100% !important;
@@ -513,6 +529,8 @@
         box-sizing: border-box !important;
         overflow-x: hidden !important;
         display: block !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
       }
       .HubBilleteFusion_container { width: 98vw; height: 320px; }
       .fusion-icon, .hub-billete-fusion .billete-fusion-svg { width: 44px; height: 44px; }
