@@ -1,144 +1,899 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tarwi</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarwi AI - Inteligencia Artificial para Compensaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <script>
+    // Animación fade-in al hacer scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const observer = new window.IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+      document.querySelectorAll('.fade-card').forEach(el => observer.observe(el));
+    });
+  </script>
+  <style>
+    :root {
+      --verde-oscuro: #234236;
+      --verde-pastel: #a8e6cf;
+      --gris-claro: #f5f5f5;
+      --gris: #b0b0b0;
+      --gris-oscuro: #444;
+      --gris-texto: #6b6b6b;
+      --blanco: #fff;
+    }
+    html {
+      box-sizing: border-box;
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--gris-claro);
+      color: var(--verde-oscuro);
+      min-height: 100vh;
+    }
+    .Header_root {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--blanco);
+      box-shadow: 0 2px 12px rgba(35,66,54,0.06);
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.2s;
+    }
+    .Header_container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+    .Header_logo {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .Header_logo svg {
+      width: 80px;
+      height: 80px;
+    }
+    .Header_logo svg {
+      width: 44px;
+      height: 44px;
+    }
+    .Header_logo span {
+      font-family: 'Inter', 'Poppins', Arial, sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 0.13em;
+      color: var(--verde-oscuro);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .Header_nav {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .Header_nav a {
+      color: var(--gris-oscuro);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.13rem;
+      transition: color 0.2s;
+      padding: 8px 0;
+      position: relative;
+      display: inline-block;
+    }
+    .Header_nav a:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: var(--verde-pastel);
+      transition: width 0.3s;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+    .Header_nav a:hover {
+      color: var(--verde-oscuro);
+    }
+    .Header_nav a:hover:after {
+      width: 100%;
+    }
+    .Hero_root {
+      width: 100%;
+      background: linear-gradient(120deg, var(--verde-oscuro) 60%, var(--verde-pastel) 100%);
+      color: var(--blanco);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 520px;
+      padding: 96px 0 80px 0;
+    }
+    .Hero_container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+      padding: 0 32px;
+    }
+    .Hero_content {
+      max-width: 520px;
+    }
+    .Hero_title {
+      font-size: 2.7rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+      line-height: 1.13;
+    }
+    .Hero_desc {
+      font-size: 1.25rem;
+      margin-bottom: 32px;
+      color: var(--gris-claro);
+      font-weight: 500;
+    }
+    .Hero_cta {
+      background: var(--verde-pastel);
+      color: var(--verde-oscuro);
+      border: none;
+      padding: 20px 48px;
+      border-radius: 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+      box-shadow: 0 4px 24px rgba(35,66,54,0.13);
+      letter-spacing: 0.08em;
+    }
+    .Hero_cta:hover {
+      background: #7ed6a7;
+      box-shadow: 0 6px 24px rgba(35,66,54,0.13);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .Hero_image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 320px;
+      max-width: 440px;
+      width: 100%;
+      height: 100%;
+    }
+    .Hero_image svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .Platform_root, .HowItWorks_root, .Industries_root, .Resources_root {
+      padding-top: 96px;
+      padding-bottom: 80px;
+    }
+    .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--verde-oscuro);
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .Platform_grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .Platform_card {
+      background: var(--blanco);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(35,66,54,0.07);
+      padding: 36px 28px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .Platform_card:hover {
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      transform: translateY(-4px) scale(1.025);
+    }
+    .Platform_icon {
+      font-size: 2.3rem;
+      color: var(--verde-pastel);
+      margin-bottom: 18px;
+    }
+    .Platform_cardTitle {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--verde-oscuro);
+      margin-bottom: 10px;
+    }
+    .Platform_cardDesc {
+      color: var(--gris-texto);
+      font-size: 1rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .HowItWorks_root fade-section {
+      background: var(--blanco);
+      border-bottom: 1.5px solid #e0e0e0;
+    }
+    .HowItWorks_container {
+      padding-bottom: 48px;
+    }
+    .HowItWorks_title {
+      text-align: left;
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 80px;
+    }
+    .HowItWorks_grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto 0 auto;
+    }
+    .HowItWorks_card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+    .HowItWorks_icon {
+      margin-bottom: 18px;
+    }
+    .HowItWorks_cardTitle {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #234236;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .HowItWorks_cardDesc {
+      font-size: 1.08rem;
+      color: #444;
+      text-align: center;
+      max-width: 270px;
+      margin: 0 auto;
+    }
+    .Industries_grid {
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: stretch;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .Industries_card {
+      background: var(--verde-pastel);
+      color: var(--verde-oscuro);
+      border-radius: 12px;
+      padding: 36px 0;
+      font-weight: 700;
+      font-size: 1.15rem;
+      min-width: 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(35,66,54,0.04);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .Industries_card:hover {
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      transform: translateY(-4px) scale(1.025);
+    }
+    .Resources_grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .Resources_card {
+      background: var(--blanco);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(35,66,54,0.07);
+      padding: 36px 28px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .Resources_card:hover {
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      transform: translateY(-4px) scale(1.025);
+    }
+    .Resources_icon {
+      font-size: 2.3rem;
+      color: var(--verde-pastel);
+      margin-bottom: 18px;
+    }
+    .Resources_cardTitle {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--verde-oscuro);
+      margin-bottom: 10px;
+    }
+    .Resources_cardDesc {
+      color: var(--gris-texto);
+      font-size: 1rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .Footer_root {
+      width: 100%;
+      background: var(--gris);
+      color: var(--verde-oscuro);
+      text-align: center;
+      padding: 32px 10px 18px 10px;
+      font-size: 1rem;
+      margin-top: 64px;
+      border: none;
+      box-shadow: none;
+    }
+    .Footer_container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .fade-section, .fade-card {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    @media (max-width: 1100px) {
+      .Platform_grid, .Industries_grid { grid-template-columns: repeat(2, 1fr); }
+      .Hero_container { flex-direction: column; gap: 32px; }
+    }
+    @media (max-width: 900px) {
+      .Hero_container { flex-direction: column; gap: 32px; padding: 0 12px; }
+      .Hero_image { min-width: 180px; max-width: 320px; }
+      .Platform_grid, .HowItWorks_grid, .Resources_grid, .Industries_grid { grid-template-columns: 1fr; }
+      .Platform_root, .HowItWorks_root, .Industries_root, .Resources_root { padding: 32px 0 24px 0; }
+      .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title { font-size: 1.2rem; margin-bottom: 18px; }
+      .Platform_card, .HowItWorks_card, .Resources_card { padding: 24px 14px 20px 14px; }
+      .Industries_card { padding: 20px 0; }
+    }
+    @media (max-width: 600px) {
+      .Header_container { padding: 0 8px; }
+      .Hero_container { padding: 0 4px; }
+      .Platform_container, .HowItWorks_container, .Industries_container, .Resources_container { padding: 0 4px; }
+    }
+    body, .Header_logo span, .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
+      font-family: 'Inter', 'Poppins', Arial, sans-serif !important;
+    }
+    .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
+      letter-spacing: 0.04em;
+    }
+    .logo-grande .logo-text {
+      font-family: 'Montserrat', 'Poppins', 'Inter', Arial, sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      letter-spacing: 0.16em;
+      color: #234236;
+      line-height: 1;
+      display: block;
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+    }
+    .logo-grande {
+      text-decoration: none !important;
+    }
+    .logo-grande:focus, .logo-grande:active, .logo-grande:visited {
+      outline: none;
+      box-shadow: none;
+      text-decoration: none;
+      color: #234236;
+    }
+    @media (min-width: 900px) {
+      .logo-grande .logo-text {
+        font-size: 3rem;
+      }
+    }
+    .billete-flotante {
+      animation: billeteFloat 3.5s ease-in-out infinite alternate;
+      filter: drop-shadow(0 4px 24px rgba(35,66,54,0.13));
+    }
+    @keyframes billeteFloat {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-18px) scale(1.03); }
+    }
+    .HubBilleteFusion_container { position:relative; }
+    .hub-billete-fusion .billete-fusion-svg {
+      transition: width 1.2s cubic-bezier(.4,0,.2,1), height 1.2s cubic-bezier(.4,0,.2,1), opacity 0.7s;
+      opacity: 1;
+      filter: drop-shadow(0 0 32px #a8e6cf88) drop-shadow(0 4px 24px rgba(35,66,54,0.13));
+      transform: scale(1);
+    }
+    .fusion-init .hub-billete-fusion .billete-fusion-svg {
+      width: 180px;
+      height: 120px;
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    .fusion-anim .hub-billete-fusion .billete-fusion-svg {
+      width: 120px;
+      height: 80px;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .fusion-hide .hub-billete-fusion .billete-fusion-svg {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    .fusion-orbit {
+      width:100%;height:100%;position:absolute;left:0;top:0;z-index:2;
+      /* animation: orbit-rotate 12s linear infinite; */
+      transform-origin: 50% 50%;
+      pointer-events:none;
+    }
+    .fusion-icon {
+      position:absolute;
+      left:50%; top:50%;
+      width:56px;height:56px;
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.9rem;
+      color: #a8e6cf;
+      font-weight: 700;
+      opacity:0;
+      transform: translate(-50%,-50%) scale(0.7);
+      filter: blur(6px);
+      transition: opacity 0.7s, transform 1.2s, filter 1.2s;
+      z-index:2;
+      pointer-events:auto;
+      will-change: transform;
+    }
+    .icon-glow {
+      filter: drop-shadow(0 0 18px #a8e6cf88) drop-shadow(0 2px 8px #23423644);
+    }
+    .fusion-anim .fusion-icon {
+      opacity:1;
+      filter: blur(0px) drop-shadow(0 0 18px #a8e6cf88) drop-shadow(0 2px 8px #23423644);
+    }
+    .fusion-hide .fusion-icon {
+      opacity:0;
+      filter: blur(6px);
+    }
+    .fusion-icon span {
+      font-size: 1.18rem;
+      color: #fff;
+      font-weight: 700;
+      margin-top: 4px;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 8px #23423644;
+    }
+    @media (max-width: 600px) {
+      .HubBilleteFusion_container { width: 98vw; height: 320px; }
+      .fusion-icon, .hub-billete-fusion .billete-fusion-svg { width: 44px; height: 44px; }
+    }
+    .nav-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    .nav-dropdown-title {
+      color: var(--gris-oscuro);
+      font-weight: 600;
+      font-size: 1.13rem;
+      padding: 8px 0;
+      cursor: pointer;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    .nav-dropdown:hover .nav-dropdown-title,
+    .nav-dropdown:focus-within .nav-dropdown-title {
+      color: var(--verde-oscuro);
+    }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 110%;
+      background: #fff;
+      min-width: 320px;
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      border-radius: 12px;
+      z-index: 100;
+      padding: 8px 0;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+      display: block;
+    }
+    .nav-dropdown-option {
+      display: block !important;
+      font-size: 0.88rem !important;
+      font-weight: 400 !important;
+      color: #234236;
+      padding: 8px 38px 8px 56px;
+      text-align: left;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+      border-radius: 6px;
+    }
+    .nav-dropdown-option:hover {
+      background: #a8e6cf33;
+      color: #234236;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(30px); }
+    }
+    .industry-marquee {
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #234236;
+      white-space: nowrap;
+      animation: marquee 2.5s linear infinite alternate;
+    }
+    .industry-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      filter: invert(38%) sepia(13%) saturate(1042%) hue-rotate(92deg) brightness(97%) contrast(92%);
+    }
+  </style>
+</head>
+<body>
+  <header class="Header_root">
+    <div class="Header_container">
+      <a href="#" class="Header_logo logo-grande" style="display:flex;align-items:center;gap:32px;">
+        <span class="logo-text">TARWI</span>
+      </a>
+      <nav class="Header_nav">
+        <div class="nav-dropdown">
+          <span class="nav-dropdown-title">Plataforma</span>
+          <div class="nav-dropdown-menu">
+            <a href="#" class="nav-dropdown-option">Compensation Benchmark</a>
+            <a href="#" class="nav-dropdown-option">Tarwi Assistant</a>
+            <a href="#" class="nav-dropdown-option">Visual Offer Intelligence</a>
+            <a href="#" class="nav-dropdown-option">Rewards Engagement</a>
+          </div>
+        </div>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#industrias">Industrias</a>
+      </nav>
+    </div>
+  </header>
+  <section class="Hero_root fade-section" style="background: linear-gradient(120deg, var(--verde-oscuro) 60%, var(--verde-pastel) 100%);">
+    <div class="Hero_container">
+      <div class="Hero_content">
+        <div style="color:#a8e6cf;font-size:1.1rem;font-weight:600;letter-spacing:0.12em;margin-bottom:10px;text-transform:uppercase;">LA NUEVA ERA DE LA COMPENSACIÓN</div>
+        <h1 class="Hero_title" style="font-size:2.7rem;line-height:1.13;font-weight:900;">
+          <span style="white-space:nowrap;">Plataforma de inteligencia</span><br>en compensación
+        </h1>
+        <p class="Hero_desc" style="font-size:1.25rem;max-width:600px;">
+          Tarwi combina datos de mercado en tiempo real y machine learning predictivo para que cada decisión sea una ventaja competitiva.
+        </p>
+        <button class="Hero_cta" style="font-size:1.18rem;padding:20px 48px;margin-top:18px;box-shadow:0 4px 24px rgba(35,66,54,0.13);font-weight:700;letter-spacing:0.08em;">Prueba Tarwi Gratis</button>
+      </div>
+      <div class="Hero_image" style="display:flex;align-items:center;justify-content:center;min-width:320px;max-width:440px;width:100%;height:100%;">
+        <div class="HubBilleteFusion_container fusion-init" id="fusionHubHero" style="position:relative;width:400px;height:400px;max-width:95vw;">
+          <div class="hub-billete-fusion" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;">
+            <svg viewBox="0 0 180 120" width="140" height="94" fill="none" xmlns="http://www.w3.org/2000/svg" class="billete-fusion-svg billete-glow">
+              <rect x="5" y="10" width="170" height="100" rx="20" fill="#a8e6cf"/>
+              <rect x="22" y="26" width="136" height="68" rx="14" fill="#234236"/>
+              <rect x="40" y="42" width="100" height="36" rx="8" fill="#a8e6cf"/>
+              <circle cx="90" cy="60" r="18" fill="#234236"/>
+              <rect x="66" y="55" width="48" height="10" rx="4" fill="#a8e6cf"/>
+              <rect x="48" y="86" width="84" height="6" rx="3" fill="#b0b0b0"/>
+            </svg>
+          </div>
+          <div class="fusion-orbit">
+            <div class="fusion-icon icon-glow" data-angle="-90"><i class="ri-global-line"></i><span>Mercado</span></div>
+            <div class="fusion-icon icon-glow" data-angle="-30"><i class="ri-cpu-line"></i><span>Inteligencia Artificial</span></div>
+            <div class="fusion-icon icon-glow" data-angle="30"><i class="ri-building-4-line"></i><span>Empresas</span></div>
+            <div class="fusion-icon icon-glow" data-angle="90"><i class="ri-bar-chart-2-line"></i><span>Reportes</span></div>
+            <div class="fusion-icon icon-glow" data-angle="150"><i class="ri-flashlight-line"></i><span>Skills</span></div>
+            <div class="fusion-icon icon-glow" data-angle="210"><i class="ri-line-chart-line"></i><span>Tendencias</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="Platform_root fade-section" id="plataforma" style="background:var(--gris-claro);border-bottom:1.5px solid #e0e0e0;padding-top:24px;">
+    <div class="Platform_container" style="max-width:1200px;margin:0 auto;padding:64px 0 64px 0;display:flex;flex-direction:column;align-items:flex-start;">
+      <h2 class="Platform_title" style="text-align:left;font-size:2.8rem;font-weight:800;margin-bottom:80px;margin-left:-32px;">Plataforma</h2>
+      <div style="display:flex;flex-direction:row;justify-content:center;align-items:flex-start;width:100%;gap:64px;">
+        <!-- Columna izquierda: gráfico y métricas -->
+        <div class="BenchmarkHub_col" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;min-width:420px;max-width:520px;flex:1 1 420px;height:100%;margin-top:auto;margin-bottom:auto;">
+          <!-- Selectores arriba -->
+          <div style="display:flex;gap:24px;margin-bottom:12px;flex-wrap:wrap;">
+            <div style="display:flex;flex-direction:column;min-width:110px;">
+              <span style="font-size:1.08rem;color:#234236b0;font-family:Inter,Arial,sans-serif;">Job Family</span>
+              <span style="font-size:1.25rem;font-weight:700;color:#234236;">ML Engineer</span>
+              <div style="height:2.5px;background:#4f8cff;width:100%;margin-top:2px;"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;min-width:80px;">
+              <span style="font-size:1.08rem;color:#234236b0;font-family:Inter,Arial,sans-serif;">Level</span>
+              <span style="font-size:1.25rem;font-weight:700;color:#234236;">P3</span>
+              <div style="height:2.5px;background:#4f8cff;width:100%;margin-top:2px;"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;min-width:110px;">
+              <span style="font-size:1.08rem;color:#234236b0;font-family:Inter,Arial,sans-serif;">Location</span>
+              <span style="font-size:1.25rem;font-weight:700;color:#234236;">Mexico</span>
+              <div style="height:2.5px;background:#4f8cff;width:100%;margin-top:2px;"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;min-width:90px;">
+              <span style="font-size:1.08rem;color:#234236b0;font-family:Inter,Arial,sans-serif;">Percentil</span>
+              <span style="font-size:1.25rem;font-weight:700;color:#234236;">50th</span>
+              <div style="height:2.5px;background:#4f8cff;width:100%;margin-top:2px;"></div>
+            </div>
+          </div>
+          <!-- Gráfico de barras más grande -->
+          <svg viewBox="0 0 420 180" width="420" height="180" style="background:none;display:block;">
+            <g stroke="#e0e0e0" stroke-width="1">
+              <line x1="60" y1="30" x2="60" y2="150"/>
+              <line x1="120" y1="30" x2="120" y2="150"/>
+              <line x1="180" y1="30" x2="180" y2="150"/>
+              <line x1="240" y1="30" x2="240" y2="150"/>
+              <line x1="300" y1="30" x2="300" y2="150"/>
+              <line x1="360" y1="30" x2="360" y2="150"/>
+            </g>
+            <rect x="72" y="110" width="36" height="40" rx="10" fill="#a8e6cf"/>
+            <rect x="132" y="70" width="36" height="80" rx="10" fill="#b5baff"/>
+            <rect x="192" y="40" width="36" height="110" rx="10" fill="#a8e6cf"/>
+            <rect x="252" y="90" width="36" height="60" rx="10" fill="#b5baff"/>
+            <rect x="312" y="140" width="36" height="20" rx="10" fill="#a8e6cf"/>
+            <rect x="132" y="40" width="56" height="28" rx="14" fill="#234236"/>
+            <text x="160" y="60" fill="#fff" font-size="18" font-family="Montserrat,Arial,sans-serif" text-anchor="middle">p25</text>
+            <rect x="192" y="10" width="56" height="28" rx="14" fill="#234236"/>
+            <text x="220" y="30" fill="#fff" font-size="18" font-family="Montserrat,Arial,sans-serif" text-anchor="middle">p50</text>
+            <rect x="252" y="60" width="56" height="28" rx="14" fill="#234236"/>
+            <text x="280" y="80" fill="#fff" font-size="18" font-family="Montserrat,Arial,sans-serif" text-anchor="middle">p75</text>
+          </svg>
+          <!-- Cuadros de métricas perfectamente alineados y textos ajustados -->
+          <div style="display:flex;gap:32px;margin-top:12px;width:100%;justify-content:center;align-items:center;">
+            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
+              <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">Salary</span>
+              <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$185K</span>
+            </div>
+            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
+              <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">Target Bonus</span>
+              <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$21K</span>
+            </div>
+            <div style="background:#fff;border-radius:22px;padding:18px 22px;box-shadow:0 2px 16px #23423611;min-width:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;height:90px;">
+              <span style="font-size:0.92rem;color:#234236b0;text-align:center;width:100%;line-height:1.1;white-space:nowrap;margin-bottom:10px;display:block;">New-Hire Equity</span>
+              <span style="font-size:2rem;font-weight:700;color:#234236;text-align:center;width:100%;line-height:1.1;">$197K</span>
+            </div>
+          </div>
+        </div>
+        <!-- Columna derecha: título y tarjetas -->
+        <div style="flex:1 1 480px;min-width:340px;max-width:700px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:32px;">
+          <div class="Platform_grid" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;width:100%;max-width:700px;justify-items:stretch;align-items:stretch;">
+            <div class="Platform_card fade-card">
+              <div class="Platform_icon"><i class="ri-bar-chart-grouped-line"></i></div>
+              <div class="Platform_cardTitle">Compensation Benchmark</div>
+              <div class="Platform_cardDesc">Comparativos dinámicos por mercado, tamaño, industria y etapa, que transforman datos en acciones correctas para competir en el mercado.</div>
+            </div>
+            <div class="Platform_card fade-card">
+              <div class="Platform_icon"><i class="ri-chat-3-line"></i></div>
+              <div class="Platform_cardTitle">Tarwi Assistant</div>
+              <div class="Platform_cardDesc">Tu analista inteligente para responder dudas salariales, entender tendencias de mercado y automatizar tareas repetitivas.</div>
+            </div>
+            <div class="Platform_card fade-card">
+              <div class="Platform_icon"><i class="ri-layout-masonry-line"></i></div>
+              <div class="Platform_cardTitle">Visual Offer Intelligence</div>
+              <div class="Platform_cardDesc">Ofertas laborales impactantes, diseñadas con experiencias visuales y personalizadas que comunican con claridad el valor real de cada propuesta.</div>
+            </div>
+            <div class="Platform_card fade-card">
+              <div class="Platform_icon"><i class="ri-award-line"></i></div>
+              <div class="Platform_cardTitle">Rewards Engagement</div>
+              <div class="Platform_cardDesc">Un portal único que integra salario, equity, beneficios y recompensas, ofreciendo visibilidad transparente que genera confianza y fideliza al mejor talento.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <style>
-      body {
-        font-family: sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #e8fff6;
-        color: #1d3b32;
-      }
-
-      .cta-button {
-        background-color: #a8e6cf;
-        color: #1d3b32;
-        font-weight: bold;
-        padding: 1em 2em;
-        border: none;
-        border-radius: 2em;
-        font-size: 1.2em;
-        cursor: pointer;
-        display: inline-block;
-        text-align: center;
-        margin: 1em auto;
-      }
-
-      .header {
-        text-align: center;
-        padding: 2em 1em;
-      }
-
-      .industries {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 2em;
-        padding: 1em;
-      }
-
-      .industry-box {
-        background-color: #a8e6cf;
-        border-radius: 1em;
-        padding: 2em;
-        text-align: center;
-        flex: 1 1 250px;
-        max-width: 300px;
-      }
-
-      .footer {
-        background-color: #1d3b32;
-        color: white;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 2em 1em;
-      }
-
-      .footer-section {
-        flex: 1 1 200px;
-        margin: 1em 0;
-      }
-
-      .footer-section h4 {
-        font-weight: bold;
-      }
-
-      .footer-section ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      .footer-section li {
-        margin: 0.5em 0;
-      }
-
-      @media (max-width: 768px) {
-        .industries {
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .footer {
-          flex-direction: column;
-          align-items: center;
-        }
+      @media (max-width: 1100px) {
+        .Platform_container { flex-direction: column !important; align-items: center !important; gap: 40px !important; }
+        .BenchmarkHub_col, .Platform_grid { max-width: 98vw !important; }
+        .Platform_grid { grid-template-columns: 1fr !important; }
       }
     </style>
-  </head>
-  <body>
-    <div class="header">
-      <h1>
-        Las empresas más importantes de LATAM están dejando atrás las
-        encuestas y eligiendo los datos de mercado en tiempo real de Tarwi:
-        más rápido, más preciso y en segundos.
-      </h1>
-      <button class="cta-button">Join the waitlist</button>
+  </section>
+  <section class="HowItWorks_root fade-section" id="como-funciona" style="background:var(--blanco);border-bottom:1.5px solid #e0e0e0;">
+    <div class="HowItWorks_container" style="padding-bottom:48px;">
+      <h2 class="HowItWorks_title" style="text-align:left;font-size:2.8rem;font-weight:800;margin-bottom:80px;margin-left:64px;">¿Cómo funciona?</h2>
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;position:relative;max-width:1100px;margin:0 auto 0 auto;">
+        <!-- Línea horizontal -->
+        <div style="position:absolute;top:54px;left:0;right:0;height:0;z-index:1;">
+          <div style="height:4px;width:100%;background:linear-gradient(90deg,#a8e6cf 0%,#a8e6cf88 100%);border-radius:2px;"></div>
+        </div>
+        <!-- Paso 1 -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:2;width:250px;min-width:250px;max-width:250px;margin:0 16px;">
+          <div style="background:#fff;border:4px solid #a8e6cf;width:108px;height:108px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px #23423611;margin-bottom:18px;">
+            <!-- SVG eslabón (conexión) -->
+            <svg width="48" height="48" fill="none" viewBox="0 0 48 48"><path d="M32 16l-8 8m-8 8l8-8" stroke="#a8e6cf" stroke-width="2.5" stroke-linecap="round"/><rect x="26" y="10" width="12" height="12" rx="6" stroke="#a8e6cf" stroke-width="2.5"/><rect x="10" y="26" width="12" height="12" rx="6" stroke="#a8e6cf" stroke-width="2.5"/></svg>
+          </div>
+          <div style="font-size:1.18rem;font-weight:700;color:#234236;margin-bottom:8px;text-align:center;width:100%;">Conexión simple</div>
+          <div style="font-size:1.08rem;color:#444;text-align:center;width:100%;margin:0 auto;">Tarwi se conecta a tus sistemas de HRIS, ATS, equity y performance para crear una única fuente de información.</div>
+        </div>
+        <!-- Paso 2 -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:2;width:250px;min-width:250px;max-width:250px;margin:0 16px;">
+          <div style="background:#fff;border:4px solid #a8e6cf;width:108px;height:108px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px #23423611;margin-bottom:18px;">
+            <!-- SVG cerebro (análisis inteligente) -->
+            <svg width="48" height="48" fill="none" viewBox="0 0 48 48"><path d="M24 10c-6 0-10 4-10 10v8c0 6 4 10 10 10s10-4 10-10v-8c0-6-4-10-10-10z" stroke="#a8e6cf" stroke-width="2.5"/><path d="M24 10v28" stroke="#a8e6cf" stroke-width="2.5" stroke-linecap="round"/><path d="M16 24h16" stroke="#a8e6cf" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-size:1.18rem;font-weight:700;color:#234236;margin-bottom:8px;text-align:center;width:100%;">Análisis inteligente</div>
+          <div style="font-size:1.08rem;color:#444;text-align:center;width:100%;margin:0 auto;">Nuestros modelos de IA analizan y recomiendan acciones basadas en tu estrategia.</div>
+        </div>
+        <!-- Paso 3 -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:2;width:250px;min-width:250px;max-width:250px;margin:0 16px;">
+          <div style="background:#fff;border:4px solid #a8e6cf;width:108px;height:108px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px #23423611;margin-bottom:18px;">
+            <!-- SVG escudo con persona (decisiones seguras) -->
+            <svg width="48" height="48" fill="none" viewBox="0 0 48 48"><path d="M24 8l14 6v8c0 10-6 18-14 20C16 40 10 32 10 22v-8l14-6z" stroke="#a8e6cf" stroke-width="2.5"/><circle cx="24" cy="22" r="4" stroke="#a8e6cf" stroke-width="2.5"/><path d="M18 32c0-2.2 2.7-4 6-4s6 1.8 6 4" stroke="#a8e6cf" stroke-width="2.5"/></svg>
+          </div>
+          <div style="font-size:1.18rem;font-weight:700;color:#234236;margin-bottom:8px;text-align:center;width:100%;">Decisiones seguras</div>
+          <div style="font-size:1.08rem;color:#444;text-align:center;width:100%;margin:0 auto;">Toma decisiones con confianza, respaldadas por datos y privacidad garantizada.</div>
+        </div>
+      </div>
+      <div class="HowItWorks_extraGrid" style="display:flex;gap:32px;justify-content:center;align-items:stretch;margin-top:80px;flex-wrap:wrap;">
+        <div style="background:#fff;border-radius:22px;box-shadow:0 2px 16px #23423611;padding:28px 32px;min-width:220px;max-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="background:#e0f7ef;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 2px 8px #a8e6cf33;">
+            <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><rect x="6" y="10" width="20" height="12" rx="3" stroke="#a8e6cf" stroke-width="2.2"/><rect x="12" y="24" width="8" height="2" rx="1" fill="#a8e6cf"/></svg>
+          </div>
+          <div style="font-size:1.13rem;font-weight:700;color:#234236;margin-bottom:6px;text-align:center;">Plataforma personalizada</div>
+        </div>
+        <div style="background:#fff;border-radius:22px;box-shadow:0 2px 16px #23423611;padding:28px 32px;min-width:220px;max-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="background:#e0f7ef;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 2px 8px #a8e6cf33;">
+            <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" stroke="#a8e6cf" stroke-width="2.2"/><path d="M12 16h8M16 12v8" stroke="#a8e6cf" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-size:1.13rem;font-weight:700;color:#234236;margin-bottom:6px;text-align:center;">Customer Support</div>
+        </div>
+        <div style="background:#fff;border-radius:22px;box-shadow:0 2px 16px #23423611;padding:28px 32px;min-width:220px;max-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="background:#e0f7ef;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 2px 8px #a8e6cf33;">
+            <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" stroke="#a8e6cf" stroke-width="2.2"/><path d="M16 10v6l4 2" stroke="#a8e6cf" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-size:1.13rem;font-weight:700;color:#234236;margin-bottom:6px;text-align:center;">Asesoramiento continuo</div>
+        </div>
+        <div style="background:#fff;border-radius:22px;box-shadow:0 2px 16px #23423611;padding:28px 32px;min-width:220px;max-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div style="background:#e0f7ef;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 2px 8px #a8e6cf33;">
+            <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" stroke="#a8e6cf" stroke-width="2.2"/><path d="M16 10v4l3 3" stroke="#a8e6cf" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-size:1.13rem;font-weight:700;color:#234236;margin-bottom:6px;text-align:center;">Equipo de implementación</div>
+        </div>
+      </div>
     </div>
-
-    <div class="industries">
-      <div class="industry-box">
-        <span>🖥️</span>
-        <p><strong>Technology Companies</strong></p>
-      </div>
-      <div class="industry-box">
-        <span>📅</span>
-        <p><strong>Frontline Companies</strong></p>
+  </section>
+  <section class="Industries_root fade-section" id="industrias" style="background:var(--gris-claro);border-bottom:1.5px solid #e0e0e0;">
+    <div class="Industries_container">
+      <h2 class="Industries_title" style="text-align:left;font-size:2.8rem;font-weight:800;margin-bottom:80px;margin-left:64px;">Industrias</h2>
+      <div style="background: #e9f8f3; border-radius: 24px; padding: 48px 32px; max-width: 1200px; margin: 0 auto 48px auto;">
+        <h3 style="font-size:2.1rem;font-weight:800;color:#234236;margin-bottom:38px;text-align:center;max-width:1100px;margin-left:auto;margin-right:auto;">
+          Las empresas más importantes de LATAM están dejando atrás las encuestas y eligiendo los datos de mercado en tiempo real de Tarwi: más rápido, más preciso y en segundos.
+        </h3>
+        <div class="Industries_grid" style="display:flex;gap:48px;justify-content:center;align-items:stretch;margin-top:0;flex-wrap:wrap;">
+          <div style="background:#a8e6cf;border-radius:18px;padding:32px 38px;min-width:440px;max-width:440px;min-height:200px;max-height:200px;display:flex;align-items:center;gap:28px;">
+            <!-- Laptop -->
+            <svg width="48" height="48" fill="none" viewBox="0 0 36 36"><rect x="8" y="12" width="20" height="12" rx="3" stroke="#234236" stroke-width="2.2"/><rect x="6" y="26" width="24" height="4" rx="2" stroke="#234236" stroke-width="2.2"/></svg>
+            <span style="font-size:1.35rem;font-weight:700;color:#234236;">Technology Companies</span>
+          </div>
+          <div style="background:#a8e6cf;border-radius:18px;padding:32px 38px;min-width:440px;max-width:440px;min-height:200px;max-height:200px;display:flex;align-items:center;gap:28px;">
+            <!-- Tienda (store) -->
+            <svg width="52" height="48" fill="none" viewBox="0 0 48 48">
+              <rect x="6" y="18" width="36" height="18" rx="3" stroke="#234236" stroke-width="2.2"/>
+              <rect x="10" y="12" width="28" height="10" rx="2" fill="#a8e6cf" stroke="#234236" stroke-width="2.2"/>
+              <rect x="18" y="28" width="6" height="8" rx="1.5" fill="#234236"/>
+            </svg>
+            <span style="font-size:1.35rem;font-weight:700;color:#234236;">Frontline Companies</span>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Segundo botón debajo de los cuadros -->
-    <div style="text-align: center">
-      <button class="cta-button">Join the waitlist</button>
+  </section>
+  <footer class="Footer_root" style="background:#234236;padding:48px 0 24px 0;border:none;box-shadow:none;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:220px;margin-top:12px;">
+        <span style="font-family:'Montserrat','Poppins','Inter',Arial,sans-serif;font-weight:800;font-size:2.3rem;letter-spacing:0.13em;color:#fff;line-height:1;">Tarwi</span>
+        <span style="font-size:1.08rem;color:#e0e0e0;">©2025 Tarwi Technologies, Inc.</span>
+      </div>
+      <div style="display:flex;gap:64px;align-items:flex-start;flex-wrap;margin-top:0;margin-right:0;">
+        <div style="min-width:120px;text-align:right;">
+          <div style="font-weight:700;margin-bottom:8px;letter-spacing:0.08em;color:#fff;">Producto</div>
+          <a href="#plataforma" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Plataforma</a>
+          <a href="#como-funciona" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Cómo funciona</a>
+        </div>
+        <div style="min-width:120px;text-align:right;">
+          <div style="font-weight:700;margin-bottom:8px;letter-spacing:0.08em;color:#fff;">Industrias</div>
+          <a href="#industrias" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Technology Companies</a>
+          <a href="#industrias" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Frontline Companies</a>
+          <a href="#industrias" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Venture Capital Companies</a>
+          <a href="#industrias" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Staffing Companies</a>
+        </div>
+        <div style="min-width:120px;text-align:right;">
+          <div style="font-weight:700;margin-bottom:8px;letter-spacing:0.08em;color:#fff;">Compañía</div>
+          <a href="#" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Sobre nosotros</a>
+          <a href="#" style="color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Contacto</a>
+        </div>
+      </div>
     </div>
-
-    <footer class="footer">
-      <div class="footer-section">
-        <h4>Producto</h4>
-        <ul>
-          <li>Plataforma</li>
-          <li>Cómo funciona</li>
-        </ul>
-      </div>
-
-      <div class="footer-section">
-        <h4>Industrias</h4>
-        <ul>
-          <li>Technology Companies</li>
-          <li>Frontline Companies</li>
-        </ul>
-      </div>
-
-      <div class="footer-section">
-        <h4>Compañía</h4>
-        <ul>
-          <li>Sobre nosotros</li>
-          <li>Contacto</li>
-        </ul>
-      </div>
-    </footer>
-  </body>
-</html>
+  </footer>
+  <script>
+    (function() {
+      var icons = document.querySelectorAll('#fusionHubHero .fusion-icon');
+      var radius = 170;
+      var startAngles = Array.from(icons).map(icon => parseFloat(icon.getAttribute('data-angle')));
+      function animateFusionIcons(state) {
+        icons.forEach(function(icon, i) {
+          var angle = startAngles[i];
+          if(state === 'fuse') {
+            icon.style.opacity = 0;
+            icon.style.transform = `translate(-50%,-50%) translate(0px,0px) scale(0.7)`;
+          } else if(state === 'spread') {
+            var rad = angle * Math.PI / 180;
+            var x = Math.cos(rad) * radius;
+            var y = Math.sin(rad) * radius;
+            icon.style.opacity = 1;
+            icon.style.transform = `translate(-50%,-50%) translate(${x}px,${y}px) scale(1)`;
+          }
+        });
+      }
+      function fusionLoop() {
+        var el = document.getElementById('fusionHubHero');
+        el.classList.remove('fusion-hide');
+        el.classList.add('fusion-init');
+        animateFusionIcons('fuse');
+        setTimeout(function(){
+          el.classList.remove('fusion-init');
+          el.classList.add('fusion-anim');
+          animateFusionIcons('spread');
+          setTimeout(function(){
+            el.classList.remove('fusion-anim');
+            el.classList.add('fusion-hide');
+            animateFusionIcons('fuse');
+            setTimeout(fusionLoop, 1200);
+          }, 3200);
+        }, 1200);
+      }
+      fusionLoop();
+      window.addEventListener('resize', function() {
+        if(document.getElementById('fusionHubHero').classList.contains('fusion-anim')) {
+          animateFusionIcons('spread');
+        }
+      });
+    })();
+  </script>
+</body>
+</html> 
