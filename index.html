@@ -409,45 +409,51 @@
         max-width: 100% !important;
         overflow-x: hidden !important;
       }
-      /* Eliminar restricciones de ancho en todos los contenedores y tarjetas */
-      [style*="min-width"], [style*="max-width"], [style*="width:100%"], [style*="width: 100%"], [style*="width:440px"], [style*="width:520px"], [style*="width:700px"], [style*="width:320px"], [style*="width:250px"], [style*="width:220px"] {
+      /* Eliminar restricciones de ancho, alto, gap, margin y padding en todos los contenedores y tarjetas inline */
+      [style*="min-width"], [style*="max-width"], [style*="width"], [style*="height"], [style*="gap"], [style*="margin"], [style*="padding"] {
         min-width: 0 !important;
         max-width: 100% !important;
         width: 100% !important;
+        height: auto !important;
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
         box-sizing: border-box !important;
+        display: block !important;
       }
-      .Header_container, .Hero_container, .Platform_container, .HowItWorks_container, .Industries_container, .Resources_container {
+      /* Forzar display:block y width:100% en todos los divs y secciones principales */
+      div, section, header, footer, main, article, aside, nav {
         width: 100% !important;
         min-width: 0 !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        padding-left: 8px !important;
-        padding-right: 8px !important;
+        display: block !important;
         overflow-x: hidden !important;
-        flex-direction: column !important;
-        display: flex !important;
-        align-items: stretch !important;
       }
-      .Hero_root, .Platform_root, .HowItWorks_root, .Industries_root, .Resources_root {
+      /* Forzar una sola columna en grids y flex */
+      .Platform_grid, .HowItWorks_grid, .Resources_grid, .Industries_grid, .Footer_container {
+        display: block !important;
         width: 100% !important;
         min-width: 0 !important;
         max-width: 100% !important;
-        overflow-x: hidden !important;
         box-sizing: border-box !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
       }
-      .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
+      /* Forzar imágenes y SVGs fluidos */
+      img, svg {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        display: block !important;
+        margin: 0 auto !important;
+      }
+      /* Ajustar títulos y textos para que hagan wrap */
+      .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title, .Hero_desc, .Platform_cardDesc, .HowItWorks_cardDesc, .Industries_card, .Resources_cardDesc {
         word-break: break-word !important;
         overflow-wrap: break-word !important;
         white-space: normal !important;
         font-size: 2.1rem !important;
         line-height: 1.1 !important;
-      }
-      .Hero_desc, .Platform_cardDesc, .HowItWorks_cardDesc, .Industries_card, .Resources_cardDesc {
-        word-break: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
       }
       .Platform_grid, .HowItWorks_grid, .Resources_grid, .Industries_grid {
         display: flex !important;
