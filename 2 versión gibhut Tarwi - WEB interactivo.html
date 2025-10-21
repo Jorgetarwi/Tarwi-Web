@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarwi AI - Inteligencia Artificial para Compensaciones</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <script>
+    // Animación fade-in al hacer scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const observer = new window.IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+      document.querySelectorAll('.fade-card').forEach(el => observer.observe(el));
+    });
+  </script>
+  
+  <script>
+    // Inicializar EmailJS
+    (function() {
+      emailjs.init("YOUR_PUBLIC_KEY"); // Necesitarás reemplazar esto con tu clave pública de EmailJS
+    })();
+
+    // Navegación suave para enlaces internos
+    document.addEventListener('DOMContentLoaded', function() {
+      // Manejar clics en enlaces de navegación
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+
+    // Función para enviar email
+    function sendEmail(event) {
+      event.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      
+      // Cambiar estado del botón
+      submitBtn.disabled = true;
+      btnText.textContent = 'Enviando...';
+      submitBtn.style.opacity = '0.7';
+      
+      // Obtener datos del formulario
+      const formData = {
+        user_name: document.getElementById('user_name').value,
+        user_email: document.getElementById('user_email').value,
+        message: document.getElementById('message').value,
+        to_email: 'jorge@tarwi.ai'
+      };
+      
+      // Enviar email usando EmailJS
+      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
+        .then(function(response) {
+          // Éxito
+          btnText.textContent = '¡Mensaje Enviado!';
+          submitBtn.style.background = 'linear-gradient(135deg,#4caf50,#45a049)';
+          
+          // Limpiar formulario
+          document.getElementById('contactForm').reset();
+          
+          // Mostrar mensaje de éxito
+          showNotification('¡Mensaje enviado correctamente! Te responderemos pronto.', 'success');
+          
+          // Restaurar botón después de 3 segundos
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            btnText.textContent = 'Enviar Mensaje';
+            submitBtn.style.opacity = '1';
+            submitBtn.style.background = 'linear-gradient(135deg,#9dd4b8,#7ed6a7)';
+          }, 3000);
+          
+        }, function(error) {
+          // Error
+          console.error('Error al enviar email:', error);
+          btnText.textContent = 'Error al Enviar';
+          submitBtn.style.background = 'linear-gradient(135deg,#f44336,#d32f2f)';
+          
+          showNotification('Error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
+          
+          // Restaurar botón después de 3 segundos
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            btnText.textContent = 'Enviar Mensaje';
+            submitBtn.style.opacity = '1';
+            submitBtn.style.background = 'linear-gradient(135deg,#9dd4b8,#7ed6a7)';
+          }, 3000);
+        });
+    }
+    
+    // Función para mostrar notificaciones
+    function showNotification(message, type) {
+      // Crear elemento de notificación
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#4caf50' : '#f44336'};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        font-weight: 600;
+        max-width: 400px;
+        animation: slideIn 0.3s ease-out;
+      `;
+      notification.textContent = message;
+      
+      // Agregar animación CSS
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      document.body.appendChild(notification);
+      
+      // Remover notificación después de 5 segundos
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 5000);
+    }
+  </script>
+  
+  <style>
+    :root {
+      --verde-oscuro: #234236;
+      --verde-pastel: #9dd4b8;
+      --gris-claro: #f5f5f5;
+      --gris: #b0b0b0;
+      --gris-oscuro: #444;
+      --gris-texto: #6b6b6b;
+      --blanco: #fff;
+    }
+    html {
+      box-sizing: border-box;
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--gris-claro);
+      color: var(--verde-oscuro);
+      min-height: 100vh;
+    }
+    .Header_root {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--blanco);
+      box-shadow: 0 2px 12px rgba(35,66,54,0.06);
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.2s;
+    }
+    .Header_container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+    .Header_logo {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .Header_logo svg {
+      width: 80px;
+      height: 80px;
+    }
+    .Header_logo svg {
+      width: 44px;
+      height: 44px;
+    }
+    .Header_logo span {
+      font-family: 'Inter', 'Poppins', Arial, sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 0.13em;
+      color: var(--verde-oscuro);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .Header_nav {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .Header_nav a {
+      color: var(--gris-oscuro);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.13rem;
+      transition: color 0.2s;
+      padding: 8px 0;
+      position: relative;
+      display: inline-block;
+    }
+    .Header_nav a:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: var(--verde-pastel);
+      transition: width 0.3s;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+    .Header_nav a:hover {
+      color: var(--verde-oscuro);
+    }
+    .Header_nav a:hover:after {
+      width: 100%;
+    }
+    .Hero_root {
+      width: 100%;
+      background: linear-gradient(120deg, var(--verde-oscuro) 60%, var(--verde-pastel) 100%);
+      color: var(--blanco);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 520px;
+      padding: 96px 0 80px 0;
+    }
+    .Hero_container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+      padding: 0 32px;
+    }
+    .Hero_content {
+      max-width: 520px;
+    }
+    .Hero_title {
+      font-size: 2.7rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+      line-height: 1.13;
+    }
+    .Hero_desc {
+      font-size: 1.25rem;
+      margin-bottom: 32px;
+      color: var(--gris-claro);
+      font-weight: 500;
+    }
+    .Hero_cta {
+      background: var(--verde-pastel);
+      color: var(--verde-oscuro);
+      border: none;
+      padding: 20px 48px;
+      border-radius: 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+      box-shadow: 0 4px 24px rgba(35,66,54,0.13);
+      letter-spacing: 0.08em;
+    }
+    .Hero_cta:hover {
+      background: #7ed6a7;
+      box-shadow: 0 6px 24px rgba(35,66,54,0.13);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .Hero_image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 320px;
+      max-width: 440px;
+      width: 100%;
+      height: 100%;
+    }
+    .Hero_image svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .Platform_root, .HowItWorks_root, .Industries_root, .Resources_root {
+      padding-top: 96px;
+      padding-bottom: 80px;
+    }
+    .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--verde-oscuro);
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .Platform_grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .Platform_card {
+      background: var(--blanco);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(35,66,54,0.07);
+      padding: 36px 28px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .Platform_card:hover {
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      transform: translateY(-4px) scale(1.025);
+    }
+    .Platform_icon {
+      font-size: 2.3rem;
+      color: var(--verde-pastel);
+      margin-bottom: 18px;
+    }
+    .Platform_cardTitle {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--verde-oscuro);
+      margin-bottom: 10px;
+    }
+    .Platform_cardDesc {
+      color: var(--gris-texto);
+      font-size: 1rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .HowItWorks_root fade-section {
+      background: var(--blanco);
+      border-bottom: 1.5px solid #e0e0e0;
+    }
+    .HowItWorks_container {
+      padding-bottom: 48px;
+    }
+    .HowItWorks_title {
+      text-align: left;
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 80px;
+    }
+    .HowItWorks_grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto 0 auto;
+    }
+    .HowItWorks_card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+    .HowItWorks_icon {
+      margin-bottom: 18px;
+    }
+    .HowItWorks_cardTitle {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #234236;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .HowItWorks_cardDesc {
+      font-size: 1.08rem;
+      color: #444;
+      text-align: center;
+      max-width: 270px;
+      margin: 0 auto;
+    }
+    .Industries_grid {
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: stretch;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .Industries_card {
+      background: var(--verde-pastel);
+      color: var(--verde-oscuro);
+      border-radius: 12px;
+      padding: 36px 0;
+      font-weight: 700;
+      font-size: 1.15rem;
+      min-width: 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(35,66,54,0.04);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .Industries_card:hover {
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      transform: translateY(-4px) scale(1.025);
+    }
+    .Resources_grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .Resources_card {
+      background: var(--blanco);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(35,66,54,0.07);
+      padding: 36px 28px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .Resources_card:hover {
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      transform: translateY(-4px) scale(1.025);
+    }
+    .Resources_icon {
+      font-size: 2.3rem;
+      color: var(--verde-pastel);
+      margin-bottom: 18px;
+    }
+    .Resources_cardTitle {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--verde-oscuro);
+      margin-bottom: 10px;
+    }
+    .Resources_cardDesc {
+      color: var(--gris-texto);
+      font-size: 1rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .Footer_root {
+      width: 100%;
+      background: var(--gris);
+      color: var(--verde-oscuro);
+      text-align: center;
+      padding: 32px 10px 18px 10px;
+      font-size: 1rem;
+      margin-top: 64px;
+      border: none;
+      box-shadow: none;
+    }
+    .Footer_container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .fade-section, .fade-card {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    /* Tablet styles */
+    @media (max-width: 1100px) {
+      .Platform_grid, .Industries_grid { grid-template-columns: repeat(2, 1fr); }
+      .Hero_container { flex-direction: column; gap: 32px; }
+      .Solutions_grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    
+    /* Small tablet styles */
+    @media (max-width: 900px) {
+      .Hero_container { flex-direction: column; gap: 32px; padding: 0 12px; }
+      .Hero_image { min-width: 180px; max-width: 320px; }
+      .Platform_grid, .HowItWorks_grid, .Resources_grid, .Industries_grid { grid-template-columns: 1fr; }
+      .Platform_root, .HowItWorks_root, .Industries_root, .Resources_root { padding: 32px 0 24px 0; }
+      .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title { font-size: 1.2rem; margin-bottom: 18px; }
+      .Platform_card, .HowItWorks_card, .Resources_card { padding: 24px 14px 20px 14px; }
+      .Industries_card { padding: 20px 0; }
+      .Solutions_grid { grid-template-columns: 1fr; }
+    }
+    
+    /* Mobile styles */
+    @media (max-width: 600px) {
+      /* Header mobile */
+      .Header_container { padding: 0 16px; }
+      .Header_nav { display: none; }
+      .Header_logo span { font-size: 1.1rem; }
+      
+      /* Hero section mobile */
+      .Hero_container { 
+        flex-direction: column; 
+        gap: 20px; 
+        padding: 0 20px; 
+        text-align: center; 
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .Hero_title { 
+        font-size: 1.8rem !important; 
+        line-height: 1.3 !important; 
+        margin-bottom: 12px;
+        text-align: center;
+        width: 100%;
+        padding: 0 8px;
+      }
+      .Hero_desc { 
+        font-size: 0.95rem !important; 
+        max-width: 100% !important;
+        margin-bottom: 24px;
+        text-align: center;
+        line-height: 1.5;
+        padding: 0 12px;
+      }
+      .Hero_cta { 
+        padding: 14px 28px !important; 
+        font-size: 0.9rem !important;
+        width: auto !important;
+        max-width: 260px !important;
+        margin: 0 auto 60px auto !important;
+        display: block;
+      }
+      
+      /* Additional spacing for fusion animation */
+      .HubBilleteFusion_container {
+        margin-top: 0px !important;
+        margin-bottom: 20px !important;
+      }
+      
+      /* Platform cards mobile */
+      .Platform_root { padding: 48px 0 32px 0; }
+      .Platform_title { 
+        font-size: 2rem !important; 
+        margin-bottom: 32px;
+        text-align: center !important;
+        width: 100%;
+        padding: 0 16px;
+      }
+      .Platform_grid { grid-template-columns: 1fr; gap: 20px; }
+      .Platform_card { 
+        padding: 24px 20px !important; 
+        margin-bottom: 0;
+        text-align: center;
+      }
+      .Platform_icon { 
+        font-size: 2.2rem !important; 
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+      }
+      .Platform_cardTitle { 
+        font-size: 1.2rem !important; 
+        margin-bottom: 12px;
+        text-align: center;
+      }
+      .Platform_cardDesc { 
+        font-size: 0.95rem !important; 
+        line-height: 1.5;
+        text-align: center;
+      }
+      
+      /* How It Works mobile */
+      .HowItWorks_root { padding: 40px 0 24px 0; }
+      .HowItWorks_title { 
+        font-size: 1.8rem !important; 
+        margin-left: 0 !important; 
+        margin-bottom: 24px !important;
+        text-align: center !important;
+        width: 100%;
+        padding: 0 16px;
+      }
+      .module-tab { 
+        padding: 10px 6px !important; 
+        font-size: 0.8rem !important;
+      }
+      .module-tab svg { width: 16px !important; height: 16px !important; }
+      .module-content > div:first-child h3 { 
+        font-size: 1.5rem !important; 
+        margin-bottom: 10px;
+        padding: 0 8px;
+      }
+      .module-content > div:first-child p { 
+        font-size: 0.9rem !important; 
+        line-height: 1.4;
+        padding: 0 12px;
+      }
+      
+      /* Solutions mobile */
+      .Solutions_root { padding-top: 60px !important; }
+      .Solutions_title { 
+        font-size: 2.2rem !important; 
+        margin-left: 0 !important; 
+        margin-bottom: 32px !important;
+        text-align: center !important;
+        width: 100%;
+        padding: 0 16px;
+      }
+      .Solutions_grid { 
+        grid-template-columns: 1fr !important; 
+        gap: 20px !important; 
+      }
+      .Solutions_grid > div { 
+        padding: 24px 20px !important; 
+        min-height: auto !important; 
+        margin-bottom: 0;
+        text-align: center;
+      }
+      .Solutions_grid > div > div:first-child { 
+        width: 70px !important; 
+        height: 70px !important; 
+        margin: 0 auto 16px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .Solutions_grid > div > div:first-child svg { 
+        width: 40px !important; 
+        height: 40px !important; 
+      }
+      .Solutions_grid h3 { 
+        font-size: 1.3rem !important; 
+        margin-bottom: 12px;
+        text-align: center;
+      }
+      .Solutions_grid p { 
+        font-size: 0.95rem !important; 
+        line-height: 1.5;
+        text-align: center;
+      }
+      
+      /* Contact mobile */
+      .Contact_root { padding: 50px 0 !important; }
+      .Contact_root > div { 
+        flex-direction: column !important; 
+        gap: 28px !important; 
+        padding: 0 20px !important; 
+      }
+      .Contact_root h2 { 
+        font-size: 2rem !important; 
+        text-align: center !important;
+        padding: 0 16px;
+      }
+      .Contact_root p { 
+        font-size: 1rem !important; 
+        text-align: center !important;
+        padding: 0 12px;
+      }
+      .Contact_root > div > div:last-child { 
+        padding: 20px !important; 
+        max-width: 100% !important; 
+      }
+      .Contact_root input, .Contact_root textarea { 
+        padding: 14px !important; 
+        font-size: 0.9rem !important; 
+      }
+      .Contact_root button { 
+        padding: 16px 20px !important; 
+        font-size: 0.9rem !important; 
+        width: 100% !important;
+      }
+      
+      /* CTA mobile */
+      .CTA_root { padding: 60px 0 !important; }
+      .CTA_root h2 { font-size: 2.2rem !important; }
+      .CTA_root button { 
+        padding: 18px 36px !important; 
+        font-size: 1.1rem !important;
+        width: auto !important;
+        max-width: 300px !important;
+        margin: 0 auto !important;
+      }
+      
+      /* Footer mobile */
+      .Footer_root { padding: 40px 0 24px 0; }
+      .Footer_root > div { 
+        flex-direction: column !important; 
+        gap: 32px !important; 
+        text-align: center !important; 
+        padding: 0 16px;
+      }
+      .Footer_root > div > div:last-child { 
+        flex-direction: column !important; 
+        gap: 24px !important; 
+      }
+    }
+    
+    /* Extra small screens */
+    @media (max-width: 400px) {
+      .Hero_title { font-size: 1.6rem !important; }
+      .Hero_desc { font-size: 0.9rem !important; }
+      .Solutions_title, .HowItWorks_title, .Platform_title { 
+        font-size: 1.6rem !important; 
+        text-align: center !important;
+        padding: 0 12px !important;
+      }
+      .Platform_card, .Solutions_grid > div { 
+        padding: 18px 14px !important; 
+        text-align: center;
+      }
+      .Header_logo span { font-size: 0.95rem !important; }
+      .fusion-icon span { font-size: 0.65rem !important; }
+      .Contact_root h2 { font-size: 1.8rem !important; }
+      .CTA_root h2 { font-size: 1.7rem !important; }
+      
+      /* Extra small interface adjustments */
+      .module-content > div:last-child { 
+        height: 400px !important; 
+        padding: 16px !important; 
+      }
+      .Solutions_grid > div > div:first-child { 
+        width: 55px !important; 
+        height: 55px !important; 
+        margin: 0 auto 14px auto;
+      }
+      .Solutions_grid > div > div:first-child svg { 
+        width: 28px !important; 
+        height: 28px !important; 
+      }
+      .HubBilleteFusion_container { 
+        height: 180px !important; 
+        max-width: 220px !important;
+        padding: 6px !important;
+        margin: 35px auto 15px auto !important;
+      }
+      .fusion-icon {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1.2rem !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+      }
+      .fusion-icon span {
+        display: none !important;
+      }
+      .billete-fusion-svg { 
+        width: 55px !important; 
+        height: 38px !important; 
+      }
+      .hub-billete-fusion .billete-fusion-svg { 
+        width: 55px !important; 
+        height: 38px !important; 
+      }
+      .fusion-orbit {
+        transform: scale(0.55) !important;
+      }
+      
+      /* Extra small hero adjustments */
+      .Hero_container {
+        gap: 16px !important;
+        margin-bottom: 16px !important;
+      }
+      
+      .Hero_cta {
+        margin: 0 auto 50px auto !important;
+        max-width: 240px !important;
+      }
+      
+      .HubBilleteFusion_container {
+        margin-top: 0px !important;
+        margin-bottom: 15px !important;
+      }
+      
+      /* Extra small fixes for IA para Compensaciones */
+      .module-content {
+        padding: 0 12px !important;
+        gap: 20px !important;
+      }
+      
+      .module-content > div:last-child {
+        height: 380px !important;
+        padding: 14px !important;
+      }
+      
+      .module-content div[style*="font-size:1.2rem"] {
+        font-size: 1.1rem !important;
+      }
+      
+      .module-content div[style*="font-size:1rem"] {
+        font-size: 0.95rem !important;
+      }
+      
+      .module-content div[style*="padding:12px"] {
+        padding: 10px !important;
+      }
+      
+      .module-content input[type="text"] {
+        font-size: 0.85rem !important;
+        padding: 12px !important;
+      }
+      
+      .module-content button {
+        font-size: 0.8rem !important;
+        padding: 10px 14px !important;
+      }
+      
+      /* Partner and Communications extra small mobile */
+      .module-content #partner-content div[style*="font-size:0.7rem;color:#234236;font-weight:600"] {
+        font-size: 0.75rem !important;
+      }
+      
+      .module-content #communications-content div[style*="font-size:0.9rem;color:#234236"] {
+        font-size: 0.9rem !important;
+      }
+      
+      .module-content #communications-content div[style*="font-size:1.4rem;font-weight:800;color:#fff"] {
+        font-size: 1.3rem !important;
+      }
+    }
+    
+    /* Landscape mobile optimization */
+    @media (max-width: 600px) and (orientation: landscape) {
+      .Hero_container { gap: 16px; }
+      .Hero_title { font-size: 1.8rem !important; }
+      .Solutions_grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .Platform_grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .module-content > div:last-child { height: 300px !important; }
+      .HubBilleteFusion_container { 
+        height: 300px !important; 
+        max-width: 300px !important;
+      }
+    }
+    
+    /* Additional mobile fixes */
+    @media (max-width: 600px) {
+      /* Ensure all interactive elements are visible */
+      .fusion-icon {
+        position: absolute !important;
+        z-index: 10 !important;
+        pointer-events: auto !important;
+      }
+      
+      /* Prevent text overflow in cards */
+      .Platform_card, .Solutions_grid > div {
+        overflow: visible !important;
+        word-wrap: break-word !important;
+      }
+      
+      /* Ensure buttons are fully visible */
+      .Hero_cta, .CTA_root button {
+        min-height: 44px !important;
+        min-width: 180px !important;
+        padding: 14px 20px !important;
+      }
+      
+      /* Fix icon containers */
+      .Solutions_grid > div > div:first-child {
+        overflow: visible !important;
+        position: relative !important;
+      }
+      
+      /* General mobile improvements */
+      .Platform_root, .HowItWorks_root, .Solutions_root, .Contact_root, .CTA_root {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+      
+      /* Ensure all text has proper spacing */
+      h1, h2, h3, h4, h5, h6, p, span, div {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+      
+      /* Fix any horizontal scrolling */
+      body, html {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+      }
+      
+      /* Ensure all containers fit within screen */
+      * {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+    }
+    body, .Header_logo span, .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
+      font-family: 'Inter', 'Poppins', Arial, sans-serif !important;
+    }
+    .Hero_title, .Platform_title, .HowItWorks_title, .Industries_title, .Resources_title {
+      letter-spacing: 0.04em;
+    }
+    .logo-grande .logo-text {
+      font-family: 'Montserrat', 'Poppins', 'Inter', Arial, sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      letter-spacing: 0.16em;
+      color: #234236;
+      line-height: 1;
+      display: block;
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+    }
+    .logo-grande {
+      text-decoration: none !important;
+    }
+    .logo-grande:focus, .logo-grande:active, .logo-grande:visited {
+      outline: none;
+      box-shadow: none;
+      text-decoration: none;
+      color: #234236;
+    }
+    @media (min-width: 900px) {
+      .logo-grande .logo-text {
+        font-size: 3rem;
+      }
+    }
+    .billete-flotante {
+      animation: billeteFloat 3.5s ease-in-out infinite alternate;
+      filter: drop-shadow(0 4px 24px rgba(35,66,54,0.13));
+    }
+    @keyframes billeteFloat {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-18px) scale(1.03); }
+    }
+    .HubBilleteFusion_container { position:relative; }
+    .hub-billete-fusion .billete-fusion-svg {
+      transition: width 1.2s cubic-bezier(.4,0,.2,1), height 1.2s cubic-bezier(.4,0,.2,1), opacity 0.7s;
+      opacity: 1;
+      filter: drop-shadow(0 0 32px #9dd4b888) drop-shadow(0 4px 24px rgba(35,66,54,0.13));
+      transform: scale(1);
+    }
+    .fusion-init .hub-billete-fusion .billete-fusion-svg {
+      width: 180px;
+      height: 120px;
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    .fusion-anim .hub-billete-fusion .billete-fusion-svg {
+      width: 120px;
+      height: 80px;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .fusion-hide .hub-billete-fusion .billete-fusion-svg {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    .fusion-orbit {
+      width:100%;height:100%;position:absolute;left:0;top:0;z-index:2;
+      /* animation: orbit-rotate 12s linear infinite; */
+      transform-origin: 50% 50%;
+      pointer-events:none;
+    }
+    .fusion-icon {
+      position:absolute;
+      left:50%; top:50%;
+      width:56px;height:56px;
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.9rem;
+      color: #9dd4b8;
+      font-weight: 700;
+      opacity:0;
+      transform: translate(-50%,-50%) scale(0.7);
+      filter: blur(6px);
+      transition: opacity 0.7s, transform 1.2s, filter 1.2s;
+      z-index:2;
+      pointer-events:auto;
+      will-change: transform;
+    }
+    .icon-glow {
+      filter: drop-shadow(0 0 18px #9dd4b888) drop-shadow(0 2px 8px #23423644);
+    }
+    .fusion-anim .fusion-icon {
+      opacity:1;
+      filter: blur(0px) drop-shadow(0 0 18px #9dd4b888) drop-shadow(0 2px 8px #23423644);
+    }
+    .fusion-hide .fusion-icon {
+      opacity:0;
+      filter: blur(6px);
+    }
+    .fusion-icon span {
+      font-size: 1.18rem;
+      color: #fff;
+      font-weight: 700;
+      margin-top: 4px;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 8px #23423644;
+      text-align: center;
+      line-height: 1.2;
+    }
+    @media (max-width: 600px) {
+      .HubBilleteFusion_container { 
+        width: 100% !important; 
+        height: 200px !important; 
+        max-width: 250px !important;
+        margin: 40px auto 20px auto;
+        position: relative;
+        overflow: visible;
+        padding: 8px;
+      }
+      .fusion-icon { 
+        width: 100px !important; 
+        height: 100px !important; 
+        font-size: 2.4rem !important;
+        min-width: 100px !important;
+        min-height: 100px !important;
+      }
+      .fusion-icon span { 
+        display: none !important;
+      }
+      .billete-fusion-svg { 
+        width: 65px !important; 
+        height: 45px !important; 
+      }
+      .hub-billete-fusion .billete-fusion-svg { 
+        width: 65px !important; 
+        height: 45px !important; 
+      }
+      .fusion-orbit {
+        width: 100% !important;
+        height: 100% !important;
+        transform: scale(0.65) !important;
+      }
+      .fusion-init .hub-billete-fusion .billete-fusion-svg {
+        width: 75px !important;
+        height: 50px !important;
+      }
+      .fusion-anim .hub-billete-fusion .billete-fusion-svg {
+        width: 65px !important;
+        height: 45px !important;
+      }
+    }
+    .nav-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    .nav-dropdown-title {
+      color: var(--gris-oscuro);
+      font-weight: 600;
+      font-size: 1.13rem;
+      padding: 8px 0;
+      cursor: pointer;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    .nav-dropdown:hover .nav-dropdown-title,
+    .nav-dropdown:focus-within .nav-dropdown-title {
+      color: var(--verde-oscuro);
+    }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 110%;
+      background: #fff;
+      min-width: 320px;
+      box-shadow: 0 8px 32px rgba(35,66,54,0.13);
+      border-radius: 12px;
+      z-index: 100;
+      padding: 8px 0;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+      display: block;
+    }
+    .nav-dropdown-option {
+      display: block !important;
+      font-size: 0.88rem !important;
+      font-weight: 400 !important;
+      color: #234236;
+      padding: 8px 38px 8px 56px;
+      text-align: left;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+      border-radius: 6px;
+    }
+    .nav-dropdown-option:hover {
+      background: #9dd4b833;
+      color: #234236;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(30px); }
+    }
+    .industry-marquee {
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #234236;
+      white-space: nowrap;
+      animation: marquee 2.5s linear infinite alternate;
+    }
+    .industry-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      filter: invert(38%) sepia(13%) saturate(1042%) hue-rotate(92deg) brightness(97%) contrast(92%);
+    }
+  </style>
+</head>
+<body>
+  <header class="Header_root">
+    <div class="Header_container">
+      <a href="#" class="Header_logo logo-grande" style="display:flex;align-items:center;gap:32px;">
+        <span class="logo-text">TARWI</span>
+      </a>
+      <nav class="Header_nav">
+        <a href="#como-funciona">Producto</a>
+        <a href="#soluciones">Soluciones</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+  <section class="Hero_root fade-section" style="background: linear-gradient(120deg, var(--verde-oscuro) 60%, var(--verde-pastel) 100%);">
+    <div class="Hero_container">
+      <div class="Hero_content">
+        <div style="color:#9dd4b8;font-size:1.1rem;font-weight:600;letter-spacing:0.12em;margin-bottom:10px;text-transform:uppercase;">LA NUEVA ERA DE LA COMPENSACIÓN</div>
+        <h1 class="Hero_title" style="font-size:2.7rem;line-height:1.13;font-weight:900;">
+          <span style="white-space:nowrap;">Plataforma de Inteligencia</span><br>en Compensación
+        </h1>
+        <p class="Hero_desc" style="font-size:1.25rem;max-width:600px;">
+          Tarwi combina datos de mercado en tiempo real con agentes contextuales de IA para que cada decisión se convierta en una ventaja competitiva.
+        </p>
+        <button class="Hero_cta" style="font-size:1.18rem;padding:20px 48px;margin-top:18px;box-shadow:0 4px 24px rgba(35,66,54,0.13);font-weight:700;letter-spacing:0.08em;" onclick="window.open('https://calendly.com/jorge-tarwi/30min', '_blank')">Quiero una demo</button>
+      </div>
+      <div class="Hero_image" style="display:flex;align-items:center;justify-content:center;min-width:320px;max-width:440px;width:100%;height:100%;">
+        <div class="HubBilleteFusion_container fusion-init" id="fusionHubHero" style="position:relative;width:400px;height:400px;max-width:95vw;">
+          <div class="hub-billete-fusion" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;">
+            <svg viewBox="0 0 180 120" width="140" height="94" fill="none" xmlns="http://www.w3.org/2000/svg" class="billete-fusion-svg billete-glow">
+              <rect x="5" y="10" width="170" height="100" rx="20" fill="#9dd4b8"/>
+              <rect x="22" y="26" width="136" height="68" rx="14" fill="#234236"/>
+              <rect x="40" y="42" width="100" height="36" rx="8" fill="#9dd4b8"/>
+              <circle cx="90" cy="60" r="18" fill="#234236"/>
+              <rect x="66" y="55" width="48" height="10" rx="4" fill="#9dd4b8"/>
+              <rect x="48" y="86" width="84" height="6" rx="3" fill="#b0b0b0"/>
+            </svg>
+          </div>
+          <div class="fusion-orbit">
+            <div class="fusion-icon icon-glow" data-angle="-90"><i class="ri-global-line"></i><span>Mercado</span></div>
+            <div class="fusion-icon icon-glow" data-angle="-30"><i class="ri-cpu-line"></i><span>Inteligencia<br>Artificial</span></div>
+            <div class="fusion-icon icon-glow" data-angle="30"><i class="ri-building-4-line"></i><span>Empresas</span></div>
+            <div class="fusion-icon icon-glow" data-angle="90"><i class="ri-bar-chart-2-line"></i><span>Reportes</span></div>
+            <div class="fusion-icon icon-glow" data-angle="150"><i class="ri-flashlight-line"></i><span>Skills</span></div>
+            <div class="fusion-icon icon-glow" data-angle="210"><i class="ri-line-chart-line"></i><span>Tendencias</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="HowItWorks_root fade-section" id="como-funciona" style="background:var(--blanco);border-bottom:1.5px solid #e0e0e0;">
+    <div class="HowItWorks_container" style="padding-bottom:48px;">
+      <h2 class="HowItWorks_title" style="text-align:left;font-size:2.8rem;font-weight:800;margin-bottom:56px;margin-left:0;max-width:1200px;margin-left:auto;margin-right:auto;padding-left:32px;">IA <span style="color:#9dd4b8;">para</span> Compensaciones</h2>
+      <!-- Navigation tabs -->
+      <div style="display:flex;justify-content:center;margin-bottom:48px;gap:0;max-width:1200px;margin-left:auto;margin-right:auto;">
+        <div class="module-tab active" data-module="benchmark" style="flex:1;padding:16px 24px;text-align:center;cursor:pointer;border-bottom:3px solid #9dd4b8;background:#fff;transition:all 0.3s;">
+          <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path d="M3 3v18h18V3H3zm16 16H5V5h14v14z" stroke="#234236" stroke-width="1.5"/>
+              <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" fill="#9dd4b8"/>
+            </svg>
+            <span style="font-weight:600;color:#234236;">Benchmark</span>
+        </div>
+          </div>
+        <div class="module-tab" data-module="partner" style="flex:1;padding:16px 24px;text-align:center;cursor:pointer;border-bottom:3px solid #e0e0e0;background:#f8f8f8;transition:all 0.3s;">
+          <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="#666" stroke-width="1.5"/>
+              <path d="M8 12h8M12 8v8" stroke="#666" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span style="font-weight:600;color:#666;">Partner</span>
+        </div>
+          </div>
+        <div class="module-tab" data-module="communications" style="flex:1;padding:16px 24px;text-align:center;cursor:pointer;border-bottom:3px solid #e0e0e0;background:#f8f8f8;transition:all 0.3s;">
+          <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#666" stroke-width="1.5"/>
+            </svg>
+            <span style="font-weight:600;color:#666;">Communications</span>
+        </div>
+          </div>
+        <div class="module-tab" data-module="management" style="flex:1;padding:16px 24px;text-align:center;cursor:pointer;border-bottom:3px solid #e0e0e0;background:#f8f8f8;transition:all 0.3s;">
+          <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#666" stroke-width="1.5"/>
+            </svg>
+            <span style="font-weight:600;color:#666;">Management</span>
+        </div>
+      </div>
+          </div>
+
+      <!-- Content area -->
+      <div style="max-width:1200px;margin:0 auto;">
+        <!-- Benchmark Module -->
+        <div class="module-content active" id="benchmark-content" style="display:flex;gap:48px;align-items:center;">
+          <div style="flex:1;padding:0 32px;">
+            <h3 style="font-size:2.2rem;font-weight:700;color:#234236;margin-bottom:24px;">Benchmark</h3>
+            <p style="font-size:1.1rem;color:#444;line-height:1.6;margin-bottom:32px;">
+              Comparativos dinámicos y gratuitos que transforman datos en acciones correctas para competir en el mercado.
+            </p>
+            <a href="https://calendly.com/jorge-tarwi/30min" target="_blank" style="color:#9dd4b8;text-decoration:none;font-weight:600;border-bottom:2px solid #9dd4b8;padding-bottom:4px;">Conoce más →</a>
+        </div>
+          <div style="flex:1;position:relative;">
+            <!-- Standardized benchmark interface -->
+            <div style="background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(35,66,54,0.15);padding:24px;position:relative;overflow:hidden;height:480px;width:100%;font-family:'Inter','Poppins','Montserrat',Arial,sans-serif;">
+              <!-- Navigation tabs -->
+              <div style="display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid #e8e8e8;">
+                <div style="padding:12px 20px;border-bottom:2px solid #9dd4b8;background:#f8f8f8;font-weight:700;color:#234236;font-size:0.9rem;letter-spacing:0.01em;">Compensaciones de Colaboradores</div>
+                <div style="padding:12px 20px;color:#888;font-size:0.9rem;letter-spacing:0.01em;">Compensaciones de Líderes</div>
+                <div style="padding:12px 20px;color:#888;font-size:0.9rem;letter-spacing:0.01em;">Compensaciones de C-Level</div>
+              </div>
+              
+              <!-- Role selection with compact layout -->
+              <div style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+                  <div>
+                    <div style="font-size:1.4rem;font-weight:800;color:#234236;margin-bottom:12px;border-bottom:2px solid #9dd4b8;display:inline-block;padding-bottom:4px;letter-spacing:0.01em;">Software Engineering</div>
+                    <div style="font-size:0.9rem;color:#666;line-height:1.5;max-width:400px;letter-spacing:0.01em;">
+                      Arquitectura, desarrollo y optimización de sistemas de software escalables. 
+                      Garantiza la entrega de código de alta calidad y el rendimiento del sistema.
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:24px;">
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                      <div style="font-size:0.8rem;color:#666;font-weight:600;letter-spacing:0.01em;">Seniority</div>
+                      <div style="background:#f8f8f8;padding:8px 16px;border-radius:6px;font-size:0.9rem;color:#234236;font-weight:600;letter-spacing:0.01em;">Senior</div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                      <div style="font-size:0.8rem;color:#666;font-weight:600;letter-spacing:0.01em;">Percentil</div>
+                      <div style="background:#f8f8f8;padding:8px 16px;border-radius:6px;font-size:0.9rem;color:#234236;font-weight:600;letter-spacing:0.01em;">P50</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Compact compensation summary -->
+              <div style="background:#f8f8f8;border-radius:12px;padding:20px;margin-bottom:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                  <div style="font-size:2.5rem;font-weight:800;color:#9dd4b8;letter-spacing:0.01em;">$7,800.00</div>
+                  <div style="color:#ff4444;font-size:1.2rem;">↓</div>
+                </div>
+                <div style="height:16px;background:linear-gradient(90deg,#9dd4b8,#ffff00,#ff4444);border-radius:8px;margin-bottom:20px;"></div>
+                
+                <!-- Compact compensation breakdown -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                  <div style="display:flex;align-items:center;gap:12px;padding:16px;background:#fff;border-radius:10px;box-shadow:0 3px 12px rgba(35,66,54,0.08);">
+                    <div style="width:16px;height:16px;background:#9dd4b8;border-radius:50%;"></div>
+                    <div style="flex:1;">
+                      <div style="font-size:0.9rem;color:#234236;font-weight:700;letter-spacing:0.01em;">Salario Base</div>
+                      <div style="font-size:1.1rem;color:#234236;font-weight:800;letter-spacing:0.01em;">$2,800.00</div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <div style="color:#ff4444;font-size:1rem;">↓</div>
+                      <div style="width:20px;height:20px;background:#f0f0f0;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <svg width="10" height="10" fill="none" viewBox="0 0 10 10">
+                          <circle cx="5" cy="5" r="2" fill="#666"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;padding:16px;background:#fff;border-radius:10px;box-shadow:0 3px 12px rgba(35,66,54,0.08);">
+                    <div style="width:16px;height:16px;background:#ff8800;border-radius:50%;"></div>
+                    <div style="flex:1;">
+                      <div style="font-size:0.9rem;color:#234236;font-weight:700;letter-spacing:0.01em;">Salario Variable</div>
+                      <div style="font-size:1.1rem;color:#234236;font-weight:800;letter-spacing:0.01em;">NO APLICA</div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <div style="color:#ff4444;font-size:1rem;">↓</div>
+                      <div style="width:20px;height:20px;background:#f0f0f0;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <svg width="10" height="10" fill="none" viewBox="0 0 10 10">
+                          <circle cx="5" cy="5" r="2" fill="#666"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;padding:16px;background:#fff;border-radius:10px;box-shadow:0 3px 12px rgba(35,66,54,0.08);">
+                    <div style="width:16px;height:16px;background:#ffff00;border-radius:50%;"></div>
+                    <div style="flex:1;">
+                      <div style="font-size:0.9rem;color:#234236;font-weight:700;letter-spacing:0.01em;">Beneficios</div>
+                      <div style="font-size:1.1rem;color:#234236;font-weight:800;letter-spacing:0.01em;">$2,000.00</div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <div style="color:#ff4444;font-size:1rem;">↓</div>
+                      <div style="width:20px;height:20px;background:#f0f0f0;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <svg width="10" height="10" fill="none" viewBox="0 0 10 10">
+                          <circle cx="5" cy="5" r="2" fill="#666"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;padding:16px;background:#fff;border-radius:10px;box-shadow:0 3px 12px rgba(35,66,54,0.08);">
+                    <div style="width:16px;height:16px;background:#ff4444;border-radius:50%;"></div>
+                    <div style="flex:1;">
+                      <div style="font-size:0.9rem;color:#234236;font-weight:700;letter-spacing:0.01em;">Equity</div>
+                      <div style="font-size:1.1rem;color:#234236;font-weight:800;letter-spacing:0.01em;">$3,000.00</div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <div style="color:#ff4444;font-size:1rem;">↓</div>
+                      <div style="width:20px;height:20px;background:#f0f0f0;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <svg width="10" height="10" fill="none" viewBox="0 0 10 10">
+                          <circle cx="5" cy="5" r="2" fill="#666"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Partner Module -->
+        <div class="module-content" id="partner-content" style="display:none;flex-direction:flex;gap:48px;align-items:center;">
+          <div style="flex:1;padding:0 32px;">
+            <h3 style="font-size:2.2rem;font-weight:700;color:#234236;margin-bottom:24px;">Partner</h3>
+            <p style="font-size:1.1rem;color:#444;line-height:1.6;margin-bottom:32px;">
+              Tu analista de IA que supervisa y valida su estrategia de compensación las 24 horas del día, los 7 días de la semana.
+            </p>
+            <a href="https://calendly.com/jorge-tarwi/30min" target="_blank" style="color:#9dd4b8;text-decoration:none;font-weight:600;border-bottom:2px solid #9dd4b8;padding-bottom:4px;">Conoce más →</a>
+          </div>
+          <div style="flex:1;position:relative;">
+            <!-- Standardized AI assistant interface -->
+            <div style="background:#234236;border-radius:16px;box-shadow:0 8px 24px rgba(35,66,54,0.15);padding:0;position:relative;overflow:visible;height:480px;width:100%;font-family:'Inter','Poppins','Montserrat',Arial,sans-serif;">
+              <!-- Header -->
+              <div style="text-align:center;padding:20px 0 16px 0;">
+                <div style="font-family:'Inter','Poppins','Montserrat',Arial,sans-serif;font-weight:900;font-size:1.4rem;letter-spacing:0.12em;color:#fff;margin-bottom:12px;text-shadow:0 2px 4px rgba(0,0,0,0.2);">TARWI</div>
+                <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:8px 16px;display:inline-block;box-shadow:0 4px 12px rgba(35,66,54,0.2);border:1px solid rgba(35,66,54,0.1);">
+                  <div style="font-size:0.8rem;color:#234236;font-weight:700;letter-spacing:0.02em;line-height:1.3;">¡Hola Jorge! 😊 ¿En qué te puedo ayudar?</div>
+                </div>
+              </div>
+              
+              <!-- Main Content Area -->
+              <div style="padding:0 20px 20px 20px;display:flex;flex-direction:column;gap:16px;height:calc(100% - 100px);">
+                <!-- Input Area -->
+                <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 4px 12px rgba(35,66,54,0.15);border:1px solid rgba(35,66,54,0.08);">
+                  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+                    <div style="font-size:0.7rem;color:#234236;font-weight:600;letter-spacing:0.01em;">¿Qué está pasando con los AI Engineering en México?</div>
+                    <div style="font-size:0.7rem;color:#234236;font-weight:600;letter-spacing:0.01em;">¿Hubo cambios en el mercado?</div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="background:#234236;border-radius:8px;padding:6px 12px;display:flex;align-items:center;gap:6px;cursor:pointer;">
+                      <svg width="12" height="12" fill="none" viewBox="0 0 12 12">
+                        <circle cx="6" cy="6" r="4" stroke="#fff" stroke-width="1.5"/>
+                        <path d="M6 3v6M3 6h6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                      <div style="font-size:0.6rem;color:#fff;font-weight:600;letter-spacing:0.01em;">Q Insights</div>
+                    </div>
+                    <div style="background:#234236;border-radius:6px;padding:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                      <svg width="10" height="10" fill="none" viewBox="0 0 10 10">
+                        <path d="M5 1l2 2-2 2-2-2 2-2z" fill="#fff"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Action Buttons Grid -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <!-- First Row -->
+                  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 2px 8px rgba(35,66,54,0.1);border:1px solid rgba(35,66,54,0.05);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:#9dd4b8;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                      <svg width="12" height="12" fill="none" viewBox="0 0 12 12">
+                        <rect x="2" y="3" width="8" height="6" rx="1" stroke="#234236" stroke-width="1.2"/>
+                        <path d="M4 6h4M4 8h2" stroke="#234236" stroke-width="1.2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div style="font-size:0.7rem;color:#234236;font-weight:600;letter-spacing:0.01em;">Tendencias Q4</div>
+                  </div>
+                  
+                  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 2px 8px rgba(35,66,54,0.1);border:1px solid rgba(35,66,54,0.05);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:#7ed6a7;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                      <svg width="12" height="12" fill="none" viewBox="0 0 12 12">
+                        <circle cx="6" cy="6" r="4" stroke="#234236" stroke-width="1.2"/>
+                        <path d="M6 2v8M2 6h8" stroke="#234236" stroke-width="1.2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div style="font-size:0.7rem;color:#234236;font-weight:600;letter-spacing:0.01em;">Tarwi Benchmark</div>
+                  </div>
+                  
+                  <!-- Second Row -->
+                  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 2px 8px rgba(35,66,54,0.1);border:1px solid rgba(35,66,54,0.05);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:#ff4444;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                      <svg width="12" height="12" fill="none" viewBox="0 0 12 12">
+                        <path d="M6 1l1.5 3h3l-2.5 2 1 3-2.5-2-2.5 2 1-3-2.5-2h3L6 1z" fill="#fff"/>
+                      </svg>
+                    </div>
+                    <div style="font-size:0.7rem;color:#234236;font-weight:600;letter-spacing:0.01em;">Cumplimiento normativo</div>
+                  </div>
+                  
+                  <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 2px 8px rgba(35,66,54,0.1);border:1px solid rgba(35,66,54,0.05);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:#ff8800;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                      <svg width="12" height="12" fill="none" viewBox="0 0 12 12">
+                        <circle cx="6" cy="6" r="4" stroke="#fff" stroke-width="1.2"/>
+                        <path d="M6 3v6M3 6h6" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div style="font-size:0.7rem;color:#234236;font-weight:600;letter-spacing:0.01em;">Analizador de beneficios</div>
+                  </div>
+                </div>
+                
+                <!-- Bottom Row -->
+                <div style="background:#fff;border-radius:8px;padding:12px;box-shadow:0 2px 8px rgba(35,66,54,0.1);border:1px solid rgba(35,66,54,0.05);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s ease;">
+                  <div style="width:24px;height:24px;background:#ff4444;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                    <svg width="12" height="12" fill="none" viewBox="0 0 12 12">
+                      <polygon points="6,1 8,4 11,4 9,6 10,9 6,7 2,9 3,6 1,4 4,4" fill="#fff"/>
+                    </svg>
+                  </div>
+                  <div style="font-size:0.7rem;color:#234236;font-weight:600;letter-spacing:0.01em;">Crear un dashboard</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Communications Module -->
+        <div class="module-content" id="communications-content" style="display:none;flex-direction:flex;gap:48px;align-items:center;">
+          <div style="flex:1;padding:0 32px;">
+            <h3 style="font-size:2.2rem;font-weight:700;color:#234236;margin-bottom:24px;">Communications</h3>
+            <p style="font-size:1.1rem;color:#444;line-height:1.6;margin-bottom:32px;">
+              Ofertas laborales interactivas y un portal inteligente para empleados creado a través de un chat de IA.
+            </p>
+            <a href="https://calendly.com/jorge-tarwi/30min" target="_blank" style="color:#9dd4b8;text-decoration:none;font-weight:600;border-bottom:2px solid #9dd4b8;padding-bottom:4px;">Conoce más →</a>
+          </div>
+          <div style="flex:1;position:relative;">
+            <!-- Standardized communication interface -->
+            <div style="background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(35,66,54,0.15);padding:20px;position:relative;overflow:visible;height:480px;width:100%;font-family:'Inter','Poppins','Montserrat',Arial,sans-serif;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <div style="width:32px;height:32px;background:#9dd4b8;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(35,66,54,0.12);">
+                  <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+                    <path d="M13 3H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8l2 2V4a1 1 0 0 0-1-1z" stroke="#234236" stroke-width="1.2"/>
+                    <path d="M5 5h5M5 8h7" stroke="#234236" stroke-width="1.2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-weight:700;color:#234236;font-size:0.9rem;letter-spacing:0.01em;">Communications Hub</div>
+                  <div style="font-size:0.7rem;color:#666;letter-spacing:0.01em;">Portal de ofertas interactivas</div>
+                </div>
+              </div>
+              
+              <!-- Chat interface -->
+              <div style="background:#f8f8f8;border-radius:10px;padding:12px;margin-bottom:12px;min-height:140px;box-shadow:inset 0 2px 4px rgba(35,66,54,0.04);overflow-y:auto;">
+                <div style="display:flex;gap:10px;margin-bottom:12px;">
+                  <div style="width:32px;height:32px;background:#9dd4b8;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(35,66,54,0.1);">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+                      <circle cx="8" cy="8" r="6" stroke="#234236" stroke-width="1.2"/>
+                      <path d="M6 8h4M8 6v4" stroke="#234236" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div style="flex:1;">
+                    <div style="background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;box-shadow:0 3px 8px rgba(35,66,54,0.1);">
+                      <div style="font-size:0.8rem;color:#234236;margin-bottom:4px;font-weight:600;letter-spacing:0.01em;">Generar carta de oferta personalizada</div>
+                      <div style="font-size:0.7rem;color:#666;letter-spacing:0.01em;line-height:1.3;">¿Podrías crear una oferta para un Software Engineer con salario base de $95,000?</div>
+                    </div>
+                    <div style="background:#9dd4b8;border-radius:12px;padding:12px;">
+                      <div style="font-size:0.8rem;color:#234236;margin-bottom:4px;font-weight:600;letter-spacing:0.01em;">Tarwi Assistant</div>
+                      <div style="font-size:0.9rem;color:#234236;letter-spacing:0.01em;">Perfecto, he generado una oferta personalizada. Incluye salario base, bonos, equity y beneficios. ¿Te gustaría revisar los detalles?</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Offer preview -->
+              <div style="background:linear-gradient(135deg,#234236,#1a2e1f);border-radius:16px;padding:20px;color:#fff;box-shadow:0 6px 20px rgba(35,66,54,0.2);">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                  <div style="width:32px;height:32px;background:#9dd4b8;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(35,66,54,0.2);">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+                      <path d="M8 1v14M1 8h14" stroke="#234236" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div style="font-weight:700;color:#fff;font-size:1.1rem;letter-spacing:0.02em;">Oferta Generada</div>
+                </div>
+                <div style="font-size:1rem;color:#9dd4b8;margin-bottom:12px;letter-spacing:0.01em;">Software Engineer - México</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <div style="font-size:0.9rem;color:#fff;opacity:0.9;letter-spacing:0.01em;">Paquete Total Anual</div>
+                    <div style="font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:0.02em;">$127,500</div>
+                  </div>
+                  <div style="background:#9dd4b8;color:#234236;padding:8px 16px;border-radius:24px;font-size:0.9rem;font-weight:700;letter-spacing:0.01em;box-shadow:0 2px 8px rgba(35,66,54,0.2);">
+                    Ver Detalles
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Input field -->
+              <div style="margin-top:24px;">
+                <div style="background:#fff;border:1px solid #e0e0e0;border-radius:28px;padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 12px rgba(35,66,54,0.08);">
+                  <input type="text" placeholder="Escribe tu mensaje..." style="border:none;outline:none;flex:1;font-size:1rem;color:#234236;letter-spacing:0.01em;" />
+                  <div style="width:36px;height:36px;background:#9dd4b8;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(35,66,54,0.15);">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+                      <path d="M17 1L9 9l8 8" stroke="#234236" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Management Module -->
+        <div class="module-content" id="management-content" style="display:none;flex-direction:flex;gap:48px;align-items:center;">
+          <div style="flex:1;padding:0 32px;">
+            <h3 style="font-size:2.2rem;font-weight:700;color:#234236;margin-bottom:24px;">Management</h3>
+            <p style="font-size:1.1rem;color:#444;line-height:1.6;margin-bottom:32px;">
+              Control en tiempo real de los programas de compensación mediante informes automatizados de IA.
+            </p>
+            <a href="https://calendly.com/jorge-tarwi/30min" target="_blank" style="color:#9dd4b8;text-decoration:none;font-weight:600;border-bottom:2px solid #9dd4b8;padding-bottom:4px;">Conoce más →</a>
+          </div>
+          <div style="flex:1;position:relative;">
+            <!-- Standardized management process diagram -->
+            <div style="background:#234236;border-radius:16px;box-shadow:0 8px 24px rgba(35,66,54,0.15);padding:20px;position:relative;overflow:visible;height:480px;width:100%;font-family:'Inter','Poppins','Montserrat',Arial,sans-serif;">
+              <!-- Header -->
+              <div style="text-align:center;margin-bottom:20px;">
+                <div style="font-family:'Inter','Poppins','Montserrat',Arial,sans-serif;font-weight:900;font-size:1.4rem;letter-spacing:0.12em;color:#fff;margin-bottom:12px;text-shadow:0 2px 4px rgba(0,0,0,0.2);">TARWI</div>
+                <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:8px 16px;display:inline-block;box-shadow:0 4px 12px rgba(35,66,54,0.2);border:1px solid rgba(35,66,54,0.1);">
+                  <div style="font-size:0.8rem;color:#234236;font-weight:700;letter-spacing:0.02em;line-height:1.3;">Crea un reporte del impacto del programa de recompensas</div>
+                </div>
+              </div>
+              
+              <!-- Process Flow -->
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+                <!-- Inputs Section -->
+                <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
+                  <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:12px;display:flex;align-items:center;gap:8px;box-shadow:0 3px 8px rgba(35,66,54,0.15);border:1px solid rgba(35,66,54,0.08);transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:linear-gradient(135deg,#ff4444,#ff6666);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:800;letter-spacing:0.01em;box-shadow:0 2px 4px rgba(255,68,68,0.3);">PDF</div>
+                    <div style="font-size:0.75rem;color:#234236;letter-spacing:0.01em;font-weight:600;">Filosofía de comp</div>
+                  </div>
+                  <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:12px;display:flex;align-items:center;gap:8px;box-shadow:0 3px 8px rgba(35,66,54,0.15);border:1px solid rgba(35,66,54,0.08);transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:linear-gradient(135deg,#4caf50,#66bb6a);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:800;letter-spacing:0.01em;box-shadow:0 2px 4px rgba(76,175,80,0.3);">✓</div>
+                    <div style="font-size:0.75rem;color:#234236;letter-spacing:0.01em;font-weight:600;">Satisfacción</div>
+                  </div>
+                  <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:12px;display:flex;align-items:center;gap:8px;box-shadow:0 3px 8px rgba(35,66,54,0.15);border:1px solid rgba(35,66,54,0.08);transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:linear-gradient(135deg,#2196f3,#42a5f5);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:800;letter-spacing:0.01em;box-shadow:0 2px 4px rgba(33,150,243,0.3);">W</div>
+                    <div style="font-size:0.75rem;color:#234236;letter-spacing:0.01em;font-weight:600;">Performance</div>
+                  </div>
+                  <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:12px;display:flex;align-items:center;gap:8px;box-shadow:0 3px 8px rgba(35,66,54,0.15);border:1px solid rgba(35,66,54,0.08);transition:all 0.2s ease;">
+                    <div style="width:24px;height:24px;background:linear-gradient(135deg,#ff4444,#ff6666);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.7rem;font-weight:800;letter-spacing:0.01em;box-shadow:0 2px 4px rgba(255,68,68,0.3);">PDF</div>
+                    <div style="font-size:0.75rem;color:#234236;letter-spacing:0.01em;font-weight:600;">Estrategia global</div>
+                  </div>
+                </div>
+                
+                <!-- Processing Center -->
+                <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+                  <!-- Magic wand icon -->
+                  <div style="width:60px;height:60px;background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(35,66,54,0.25);border:2px solid rgba(35,66,54,0.1);position:relative;">
+                    <svg width="28" height="28" fill="none" viewBox="0 0 28 28">
+                      <circle cx="14" cy="14" r="2" fill="#9dd4b8"/>
+                    </svg>
+                    <!-- Animated ring -->
+                    <div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border:2px solid #9dd4b8;border-radius:50%;opacity:0.6;animation:pulse 2s infinite;"></div>
+                  </div>
+                  <!-- Processing text -->
+                  <div style="background:rgba(255,255,255,0.9);border-radius:12px;padding:4px 8px;box-shadow:0 2px 6px rgba(35,66,54,0.15);">
+                    <div style="font-size:0.6rem;color:#234236;font-weight:700;letter-spacing:0.02em;">Procesando...</div>
+                  </div>
+                  <!-- Sparkles -->
+                  <div style="display:flex;gap:4px;">
+                    <div style="width:8px;height:8px;background:#9dd4b8;border-radius:50%;opacity:0.8;box-shadow:0 2px 4px rgba(168,230,207,0.4);animation:sparkle 1.5s infinite;"></div>
+                    <div style="width:8px;height:8px;background:#7ed6a7;border-radius:50%;opacity:0.6;box-shadow:0 2px 4px rgba(126,214,167,0.4);animation:sparkle 1.5s infinite 0.5s;"></div>
+                    <div style="width:8px;height:8px;background:#9dd4b8;border-radius:50%;opacity:0.8;box-shadow:0 2px 4px rgba(168,230,207,0.4);animation:sparkle 1.5s infinite 1s;"></div>
+                  </div>
+                </div>
+                
+                <!-- Outputs Section -->
+                <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
+                  <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:14px;box-shadow:0 4px 12px rgba(35,66,54,0.15);border:1px solid rgba(35,66,54,0.08);transition:all 0.2s ease;">
+                    <div style="font-size:0.8rem;color:#234236;font-weight:700;margin-bottom:8px;letter-spacing:0.01em;">Reporte de efectividad Q4</div>
+                    <div style="height:40px;background:linear-gradient(135deg,#f0f0f0,#e8e8e8);border-radius:8px;position:relative;box-shadow:inset 0 2px 6px rgba(35,66,54,0.08);overflow:hidden;">
+                      <div style="position:absolute;bottom:0;left:0;width:60%;height:24px;background:linear-gradient(90deg,#9dd4b8 0%,#7ed6a7 50%,#66bb6a 100%);border-radius:0 0 8px 8px;animation:progress 2s ease-in-out;"></div>
+                      <div style="position:absolute;top:3px;left:6px;width:60%;height:3px;background:linear-gradient(90deg,#9dd4b8,#7ed6a7);border-radius:2px;"></div>
+                      <div style="position:absolute;top:8px;right:8px;font-size:0.6rem;color:#234236;font-weight:600;">78%</div>
+                    </div>
+                  </div>
+                  <div style="background:linear-gradient(135deg,#fff,#f8f8f8);border-radius:8px;padding:14px;box-shadow:0 4px 12px rgba(35,66,54,0.15);border:1px solid rgba(35,66,54,0.08);transition:all 0.2s ease;">
+                    <div style="font-size:0.8rem;color:#234236;font-weight:700;margin-bottom:8px;letter-spacing:0.01em;">Informe general de resultados</div>
+                    <div style="height:32px;background:linear-gradient(135deg,#f0f0f0,#e8e8e8);border-radius:6px;position:relative;display:flex;align-items:end;gap:2px;padding:4px;box-shadow:inset 0 2px 6px rgba(35,66,54,0.08);">
+                      <div style="width:8px;height:16px;background:linear-gradient(135deg,#9dd4b8,#7ed6a7);border-radius:2px;animation:barGrow 1.5s ease-in-out;"></div>
+                      <div style="width:8px;height:22px;background:linear-gradient(135deg,#7ed6a7,#66bb6a);border-radius:2px;animation:barGrow 1.5s ease-in-out 0.2s;"></div>
+                      <div style="width:8px;height:18px;background:linear-gradient(135deg,#9dd4b8,#7ed6a7);border-radius:2px;animation:barGrow 1.5s ease-in-out 0.4s;"></div>
+                      <div style="width:8px;height:26px;background:linear-gradient(135deg,#7ed6a7,#66bb6a);border-radius:2px;animation:barGrow 1.5s ease-in-out 0.6s;"></div>
+                      <div style="width:8px;height:15px;background:linear-gradient(135deg,#9dd4b8,#7ed6a7);border-radius:2px;animation:barGrow 1.5s ease-in-out 0.8s;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      @media (max-width: 1100px) {
+        .module-content { flex-direction: column !important; gap: 32px !important; }
+        .module-content > div:first-child { padding: 0 16px !important; }
+        .module-tab { flex-direction: column !important; gap: 8px !important; }
+        .module-tab span { font-size: 0.9rem !important; }
+      }
+      @media (max-width: 600px) {
+        .HowItWorks_title { 
+          font-size: 2rem !important; 
+          margin-left: 16px !important; 
+          margin-bottom: 40px !important; 
+        }
+        .module-tab { 
+          padding: 12px 8px !important; 
+          font-size: 0.85rem !important;
+          text-align: center !important;
+        }
+        .module-tab svg { 
+          width: 18px !important; 
+          height: 18px !important; 
+        }
+        .module-content > div:first-child h3 { 
+          font-size: 1.6rem !important; 
+          margin-bottom: 12px;
+        }
+        .module-content > div:first-child p { 
+          font-size: 1rem !important; 
+          line-height: 1.5;
+        }
+        
+        /* Center the navigation tabs container */
+        .module-tab {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+        }
+        
+        .module-tab > div {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+        }
+        
+        .module-tab span {
+          text-align: center !important;
+        }
+        
+        /* Center section titles for mobile */
+        .HowItWorks_title {
+          text-align: center !important;
+        }
+        
+        .Solutions_title {
+          text-align: center !important;
+        }
+        
+        /* Benchmark interface mobile */
+        .module-content > div:last-child { 
+          height: 450px !important; 
+          padding: 20px !important; 
+          overflow-y: auto;
+          max-width: 100% !important;
+        }
+        .module-content > div:last-child > div { 
+          font-size: 0.85rem !important; 
+          margin-bottom: 8px;
+        }
+        .module-content > div:last-child h4 { 
+          font-size: 1.1rem !important; 
+          margin-bottom: 12px;
+        }
+        .module-content > div:last-child p { 
+          font-size: 0.9rem !important; 
+          line-height: 1.4;
+        }
+        
+        /* Partner interface mobile */
+        .module-content #partner-content > div:last-child { 
+          height: 450px !important; 
+          padding: 20px !important; 
+          overflow-y: auto;
+          max-width: 100% !important;
+        }
+        
+        /* Partner cards text centering */
+        .module-content #partner-content div[style*="display:flex;align-items:center;gap:8px"] {
+          flex-direction: column !important;
+          text-align: center !important;
+          gap: 6px !important;
+        }
+        
+        .module-content #partner-content div[style*="font-size:0.7rem;color:#234236;font-weight:600"] {
+          text-align: center !important;
+          font-size: 0.8rem !important;
+        }
+        
+        /* Communications interface mobile */
+        .module-content #communications-content > div:last-child { 
+          height: 450px !important; 
+          padding: 20px !important; 
+          overflow-y: auto;
+          max-width: 100% !important;
+        }
+        
+        /* Communications text centering */
+        .module-content #communications-content div[style*="background:#9dd4b8;border-radius:12px"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:0.9rem;color:#234236"] {
+          text-align: center !important;
+          font-size: 0.95rem !important;
+        }
+        
+        .module-content #communications-content div[style*="font-weight:700;color:#fff;font-size:1.1rem"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:1rem;color:#9dd4b8"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:0.9rem;color:#fff;opacity:0.9"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:1.4rem;font-weight:800;color:#fff"] {
+          text-align: center !important;
+        }
+        
+        /* Communications card text centering for mobile */
+        .module-content #communications-content div[style*="background:linear-gradient(135deg,#234236,#1a2e1f)"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-weight:700;color:#fff;font-size:1.1rem;letter-spacing:0.02em"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:1rem;color:#9dd4b8;margin-bottom:12px;letter-spacing:0.01em"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:0.9rem;color:#fff;opacity:0.9;letter-spacing:0.01em"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:0.02em"] {
+          text-align: center !important;
+        }
+        
+        /* Additional centering for all text elements in the offer card */
+        .module-content #communications-content div[style*="display:flex;justify-content:space-between;align-items:center"] {
+          flex-direction: column !important;
+          text-align: center !important;
+          gap: 8px !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:1rem;color:#9dd4b8"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:0.9rem;color:#fff;opacity:0.9"] {
+          text-align: center !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:1.4rem;font-weight:800;color:#fff"] {
+          text-align: center !important;
+        }
+        
+        /* Specific centering for Software Engineer and price text */
+        .module-content #communications-content div[style*="font-size:1rem;color:#9dd4b8;margin-bottom:12px;letter-spacing:0.01em"] {
+          text-align: center !important;
+          display: block !important;
+          width: 100% !important;
+        }
+        
+        .module-content #communications-content div[style*="font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:0.02em"] {
+          text-align: center !important;
+          display: block !important;
+          width: 100% !important;
+        }
+        
+        /* Center the flex container content */
+        .module-content #communications-content div[style*="display:flex;justify-content:space-between;align-items:center"] > div {
+          text-align: center !important;
+          width: 100% !important;
+        }
+        
+        /* Management interface mobile */
+        .module-content #management-content > div:last-child { 
+          height: 450px !important; 
+          padding: 20px !important; 
+          overflow-y: auto;
+          max-width: 100% !important;
+        }
+        
+        /* Additional mobile fixes for IA para Compensaciones */
+        .module-content {
+          flex-direction: column !important;
+          gap: 24px !important;
+          padding: 0 16px !important;
+        }
+        
+        .module-content > div:first-child {
+          padding: 0 8px !important;
+        }
+        
+        .module-content > div:last-child {
+          width: 100% !important;
+          margin: 0 !important;
+        }
+        
+        /* Specific mobile fixes for module elements */
+        .module-content div[style*="display:flex"] {
+          flex-direction: column !important;
+          gap: 12px !important;
+        }
+        
+        .module-content div[style*="justify-content:space-between"] {
+          flex-direction: column !important;
+          gap: 8px !important;
+        }
+        
+        .module-content div[style*="width:32px"] {
+          width: 36px !important;
+          height: 36px !important;
+        }
+        
+        .module-content div[style*="font-size:1.4rem"] {
+          font-size: 1.3rem !important;
+        }
+        
+        .module-content div[style*="font-size:1.1rem"] {
+          font-size: 1rem !important;
+        }
+        
+        .module-content div[style*="padding:20px"] {
+          padding: 18px !important;
+        }
+        
+        .module-content div[style*="padding:16px"] {
+          padding: 14px !important;
+        }
+        
+        .module-content input[type="text"] {
+          font-size: 0.9rem !important;
+        }
+        
+        .module-content button {
+          font-size: 0.85rem !important;
+          padding: 12px 16px !important;
+        }
+      }
+    </style>
+  </section>
+  <section class="Solutions_root fade-section" id="soluciones" style="background:var(--gris-claro);border-bottom:1.5px solid #e0e0e0;padding-top:80px;">
+    <div class="Solutions_container">
+      <h2 class="Solutions_title" style="text-align:left;font-size:2.8rem;font-weight:800;margin-bottom:80px;margin-left:0;max-width:1200px;margin-left:auto;margin-right:auto;padding-left:32px;">Soluciones para <span style="color:#9dd4b8;font-weight:800;">cada</span> Rol</h2>
+      <div style="background: #e9f8f3; border-radius: 24px; padding: 48px 32px; max-width: 1200px; margin: 0 auto 48px auto;">
+        <div class="Solutions_grid" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;justify-content:center;align-items:stretch;margin-top:0;max-width:1100px;margin-left:auto;margin-right:auto;">
+          <!-- HR & Compensation -->
+          <div style="background:#fff;border-radius:22px;box-shadow:0 4px 24px rgba(35,66,54,0.13);padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:280px;">
+            <div style="background:#e0f7ef;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 4px 16px rgba(168,230,207,0.3);">
+              <!-- Dashboard para HR & Compensation -->
+              <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                <!-- Dashboard principal -->
+                <rect x="8" y="12" width="32" height="24" rx="4" stroke="#9dd4b8" stroke-width="2" fill="#e0f7ef"/>
+                
+                <!-- Fila superior -->
+                <rect x="12" y="16" width="6" height="6" rx="1" fill="#9dd4b8"/>
+                <rect x="20" y="16" width="6" height="6" rx="1" fill="#234236"/>
+                <rect x="28" y="16" width="8" height="6" rx="1" fill="#9dd4b8"/>
+                
+                <!-- Fila inferior -->
+                <rect x="12" y="24" width="8" height="6" rx="1" fill="#234236"/>
+                <rect x="22" y="24" width="8" height="6" rx="1" fill="#9dd4b8"/>
+              </svg>
+          </div>
+            <h3 style="font-size:1.4rem;font-weight:700;color:#234236;margin-bottom:12px;text-align:center;">HR & Compensation</h3>
+            <p style="font-size:1rem;color:#444;text-align:center;line-height:1.5;">
+              Crea, diseña y comunica tu filosofía de compensación.<br>
+              Tarwi te ayuda a alinear tu estrategia de pago con tus objetivos de negocio.
+            </p>
+          </div>
+          
+          <!-- Finance -->
+          <div style="background:#fff;border-radius:22px;box-shadow:0 4px 24px rgba(35,66,54,0.13);padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:280px;">
+            <div style="background:#e0f7ef;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 4px 16px rgba(168,230,207,0.3);">
+              <!-- Monitor de computadora para Finance -->
+              <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                <!-- Pantalla del monitor -->
+                <rect x="8" y="6" width="32" height="24" rx="4" fill="#9dd4b8" stroke="#9dd4b8" stroke-width="2"/>
+                
+                <!-- Base del monitor -->
+                <rect x="18" y="32" width="12" height="4" rx="2" fill="#9dd4b8"/>
+              </svg>
+            </div>
+            <h3 style="font-size:1.4rem;font-weight:700;color:#234236;margin-bottom:12px;text-align:center;">Finance</h3>
+            <p style="font-size:1rem;color:#444;text-align:center;line-height:1.5;">
+              Ahorra tiempo y dinero con Tarwi.<br>
+              Consulta, controla y analiza en tiempo real la inversión en compensación.
+            </p>
+          </div>
+          
+          <!-- Recruiting -->
+          <div style="background:#fff;border-radius:22px;box-shadow:0 4px 24px rgba(35,66,54,0.13);padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:280px;">
+            <div style="background:#e0f7ef;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 4px 16px rgba(168,230,207,0.3);">
+              <!-- Lupa para Recruiting -->
+              <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                <!-- Círculo de la lupa -->
+                <circle cx="20" cy="20" r="12" stroke="#9dd4b8" stroke-width="3" fill="none"/>
+                
+                <!-- Mango de la lupa -->
+                <path d="M30 30l8 8" stroke="#9dd4b8" stroke-width="3" stroke-linecap="round"/>
+                
+                <!-- Lente de la lupa -->
+                <circle cx="20" cy="20" r="8" fill="#9dd4b8" opacity="0.2"/>
+                
+                <!-- Punto central de enfoque -->
+                <circle cx="20" cy="20" r="2" fill="#234236"/>
+                
+                <!-- Líneas de búsqueda -->
+                <path d="M16 16l-2-2M24 16l2-2M16 24l-2 2M24 24l2 2" stroke="#234236" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                
+                <!-- Efecto de brillo -->
+                <circle cx="20" cy="20" r="16" fill="#9dd4b8" opacity="0.1"/>
+                <circle cx="20" cy="20" r="20" fill="#9dd4b8" opacity="0.05"/>
+              </svg>
+            </div>
+            <h3 style="font-size:1.4rem;font-weight:700;color:#234236;margin-bottom:12px;text-align:center;">Recruiting</h3>
+            <p style="font-size:1rem;color:#444;text-align:center;line-height:1.5;">
+              Inteligencia de mercado al alcance de tus manos<br>
+              para conquistar a los candidatos.
+            </p>
+          </div>
+          
+          <!-- Managers -->
+          <div style="background:#fff;border-radius:22px;box-shadow:0 4px 24px rgba(35,66,54,0.13);padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:280px;">
+            <div style="background:#e0f7ef;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 4px 16px rgba(168,230,207,0.3);">
+              <!-- Objetivo (target) para Managers -->
+              <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                <!-- Círculo de fondo -->
+                <circle cx="24" cy="24" r="20" fill="#9dd4b8" opacity="0.2"/>
+                
+                <!-- Círculo principal -->
+                <circle cx="24" cy="24" r="16" stroke="#9dd4b8" stroke-width="3" fill="none"/>
+                
+                <!-- Objetivo (target) -->
+                <circle cx="24" cy="24" r="8" stroke="#234236" stroke-width="2" fill="none" opacity="0.6"/>
+                <circle cx="24" cy="24" r="4" stroke="#234236" stroke-width="1.5" fill="none" opacity="0.4"/>
+                <circle cx="24" cy="24" r="2" fill="#234236" opacity="0.3"/>
+                
+                <!-- Efecto de brillo -->
+                <circle cx="24" cy="24" r="22" fill="#9dd4b8" opacity="0.1"/>
+                <circle cx="24" cy="24" r="26" fill="#9dd4b8" opacity="0.05"/>
+              </svg>
+            </div>
+            <h3 style="font-size:1.4rem;font-weight:700;color:#234236;margin-bottom:12px;text-align:center;">Managers</h3>
+            <p style="font-size:1rem;color:#444;text-align:center;line-height:1.5;">
+              Planifica la compensación con facilidad.<br>
+              Tarwi te da los datos de compensación que necesitas para recompensar y retener tu mejor talento.
+            </p>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:80px;width:100%;">
+          <button class="Hero_cta" style="background:#9dd4b8;color:#234236;border:none;padding:20px 48px;border-radius:24px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s, box-shadow 0.2s, transform 0.2s;box-shadow:0 4px 24px rgba(35,66,54,0.13);letter-spacing:0.08em;" onclick="window.open('https://calendly.com/jorge-tarwi/30min', '_blank')">Quiero una demo</button>
+        </div>
+      </div>
+    </div>
+    <style>
+      @media (max-width: 1100px) {
+        .Solutions_grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+        .Solutions_title { font-size: 2.2rem !important; margin-left: 32px !important; }
+      }
+      @media (max-width: 600px) {
+        .Solutions_title { font-size: 1.8rem !important; margin-left: 16px !important; margin-bottom: 40px !important; }
+        .Solutions_container > div { padding: 24px 16px !important; }
+        .Solutions_grid { gap: 20px !important; }
+        .Solutions_grid > div { padding: 24px !important; min-height: auto !important; }
+        .Solutions_grid > div > div:first-child { width: 60px !important; height: 60px !important; }
+        .Solutions_grid > div > div:first-child svg { width: 36px !important; height: 36px !important; }
+        .Solutions_grid h3 { font-size: 1.2rem !important; }
+        .Solutions_grid p { font-size: 0.9rem !important; }
+      }
+    </style>
+  </section>
+  <section class="Contact_root fade-section" id="contacto" style="background:var(--blanco);border-bottom:1.5px solid #e0e0e0;padding:80px 0;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:flex;gap:80px;align-items:center;">
+      <!-- Left side: Title and description -->
+      <div style="flex:1;padding:0 32px;">
+        <h2 style="font-size:3.8rem;font-weight:800;color:#234236;margin-bottom:32px;line-height:1.1;">
+          ¿Aún tienes<br>
+          <span style="color:#9dd4b8;">dudas?</span>
+        </h2>
+        <p style="font-size:1.2rem;color:#444;line-height:1.6;margin-bottom:56px;max-width:500px;">
+          Déjanos un mensaje y te responderemos lo antes posible.
+        </p>
+      </div>
+      
+      <!-- Right side: Contact form -->
+      <div style="flex:1;max-width:500px;">
+        <div style="background:#fff;border-radius:24px;box-shadow:0 8px 32px rgba(35,66,54,0.15);padding:40px;border:1px solid #e0e0e0;">
+          <form id="contactForm" style="display:flex;flex-direction:column;gap:24px;" onsubmit="sendEmail(event)">
+            <div>
+              <label style="display:block;font-size:1rem;font-weight:600;color:#234236;margin-bottom:8px;">Nombre</label>
+              <input type="text" id="user_name" name="user_name" placeholder="Tu nombre completo" required style="width:100%;padding:16px 20px;border:2px solid #e0e0e0;border-radius:12px;font-size:1rem;color:#234236;background:#fff;transition:border-color 0.3s;outline:none;" onfocus="this.style.borderColor='#9dd4b8'" onblur="this.style.borderColor='#e0e0e0'">
+            </div>
+            
+            <div>
+              <label style="display:block;font-size:1rem;font-weight:600;color:#234236;margin-bottom:8px;">Email</label>
+              <input type="email" id="user_email" name="user_email" placeholder="tu@email.com" required style="width:100%;padding:16px 20px;border:2px solid #e0e0e0;border-radius:12px;font-size:1rem;color:#234236;background:#fff;transition:border-color 0.3s;outline:none;" onfocus="this.style.borderColor='#9dd4b8'" onblur="this.style.borderColor='#e0e0e0'">
+            </div>
+            
+            <div>
+              <label style="display:block;font-size:1rem;font-weight:600;color:#234236;margin-bottom:8px;">Mensaje</label>
+              <textarea id="message" name="message" placeholder="Cuéntanos sobre tu proyecto o consulta..." rows="4" required style="width:100%;padding:16px 20px;border:2px solid #e0e0e0;border-radius:12px;font-size:1rem;color:#234236;background:#fff;transition:border-color 0.3s;outline:none;resize:vertical;font-family:inherit;" onfocus="this.style.borderColor='#9dd4b8'" onblur="this.style.borderColor='#e0e0e0'"></textarea>
+            </div>
+            
+            <button type="submit" id="submitBtn" style="background:linear-gradient(135deg,#9dd4b8,#7ed6a7);color:#234236;border:none;padding:18px 32px;border-radius:16px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(168,230,207,0.3);display:flex;align-items:center;justify-content:center;gap:8px;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(168,230,207,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(168,230,207,0.3)'">
+              <span id="btnText">Enviar Mensaje</span>
+              <svg width="20" height="20" fill="none" viewBox="0 0 20 20" style="margin-left:4px;">
+                <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <style>
+      @media (max-width: 1100px) {
+        .Contact_root > div { flex-direction: column !important; gap: 48px !important; }
+        .Contact_root > div > div:first-child { padding: 0 16px !important; }
+        .Contact_root > div > div:last-child { max-width: 100% !important; }
+      }
+      @media (max-width: 600px) {
+        .Contact_root { padding: 60px 0 !important; }
+        .Contact_root > div { padding: 0 16px !important; gap: 32px !important; }
+        .Contact_root h2 { font-size: 2.4rem !important; }
+        .Contact_root p { font-size: 1.1rem !important; }
+        .Contact_root > div > div:last-child { padding: 24px !important; }
+        .Contact_root input, .Contact_root textarea { padding: 14px 16px !important; font-size: 0.95rem !important; }
+        .Contact_root button { padding: 16px 24px !important; font-size: 1rem !important; }
+      }
+    </style>
+  </section>
+  <section class="CTA_root fade-section" id="cta" style="background:linear-gradient(135deg,#234236,#1a2e1f);padding:60px 0 100px 0;border-bottom:1.5px solid #e0e0e0;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;text-align:center;">
+        <h2 style="font-size:3.5rem;font-weight:800;color:#fff;margin-bottom:64px;line-height:1.3;max-width:1000px;margin-left:auto;margin-right:auto;">
+          Las empresas más importantes de LATAM están dejando atrás las encuestas y eligiendo la tecnología en tiempo real de Tarwi: más confiable, más preciso y en segundos.
+        </h2>
+      <button class="Hero_cta" style="background:linear-gradient(135deg,#9dd4b8,#7ed6a7);color:#234236;border:none;padding:20px 48px;border-radius:24px;font-size:1.2rem;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 8px 32px rgba(168,230,207,0.4);display:inline-flex;align-items:center;gap:12px;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 40px rgba(168,230,207,0.5)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 8px 32px rgba(168,230,207,0.4)'" onclick="window.open('https://calendly.com/jorge-tarwi/30min', '_blank')">
+        Quiero una demo
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-left:8px;">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    
+    <style>
+      @media (max-width: 1100px) {
+        .CTA_root h2 { font-size: 2.8rem !important; }
+        .CTA_root { padding: 80px 0 !important; }
+      }
+      @media (max-width: 600px) {
+        .CTA_root { padding: 60px 0 !important; }
+        .CTA_root h2 { font-size: 2.2rem !important; }
+        .CTA_root button { padding: 18px 36px !important; font-size: 1.1rem !important; }
+      }
+      
+      /* Animations for Management module */
+      @keyframes pulse {
+        0% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 0.6; }
+      }
+      
+      @keyframes sparkle {
+        0% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(1); opacity: 0.6; }
+      }
+      
+      @keyframes progress {
+        0% { width: 0%; }
+        100% { width: 78%; }
+      }
+      
+      @keyframes barGrow {
+        0% { height: 0; }
+        100% { height: var(--target-height); }
+      }
+      
+      @keyframes flow {
+        0% { opacity: 0.3; transform: translateX(-100%); }
+        50% { opacity: 0.8; }
+        100% { opacity: 0.3; transform: translateX(100%); }
+      }
+      
+      /* Efecto de brillo para botones "Quiero una demo" */
+      @keyframes buttonGlow {
+        0% { 
+          box-shadow: 0 4px 24px rgba(35,66,54,0.13), 0 0 0 0 rgba(157,212,184,0.4);
+        }
+        50% { 
+          box-shadow: 0 8px 32px rgba(35,66,54,0.2), 0 0 20px rgba(157,212,184,0.6), 0 0 40px rgba(157,212,184,0.3);
+        }
+        100% { 
+          box-shadow: 0 4px 24px rgba(35,66,54,0.13), 0 0 0 0 rgba(157,212,184,0.4);
+        }
+      }
+      
+      .Hero_cta {
+        animation: buttonGlow 3s ease-in-out infinite;
+      }
+      
+      .Hero_cta:hover {
+        animation: none;
+        box-shadow: 0 8px 32px rgba(35,66,54,0.25), 0 0 25px rgba(157,212,184,0.8), 0 0 50px rgba(157,212,184,0.4) !important;
+      }
+    </style>
+  </section>
+  <footer class="Footer_root" style="background:#234236;padding:48px 0 24px 0;border:none;box-shadow:none;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:220px;margin-top:12px;">
+        <span style="font-family:'Montserrat','Poppins','Inter',Arial,sans-serif;font-weight:800;font-size:2.3rem;letter-spacing:0.13em;color:#fff;line-height:1;">TARWI</span>
+        <span style="font-size:0.9rem;color:#e0e0e0;">©2025 Tarwi Technologies. Todos los derechos reservados.</span>
+      </div>
+      <div style="display:flex;gap:64px;align-items:flex-start;flex-wrap:wrap;margin-top:0;margin-right:0;">
+        <div style="min-width:120px;text-align:left;">
+          <div style="font-size:0.9rem;font-weight:700;margin-bottom:8px;letter-spacing:0.08em;color:#fff;">Producto</div>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Benchmark</a>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Partner</a>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Communications</a>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Management</a>
+        </div>
+        <div style="min-width:120px;text-align:left;">
+          <div style="font-size:0.9rem;font-weight:700;margin-bottom:8px;letter-spacing:0.08em;color:#fff;">Soluciones</div>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">HR & Compensation</a>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Finance</a>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Recruiting</a>
+          <a href="#soluciones" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Managers</a>
+        </div>
+        <div style="min-width:120px;text-align:left;">
+          <div style="font-size:0.9rem;font-weight:700;margin-bottom:8px;letter-spacing:0.08em;color:#fff;">Compañía</div>
+          <a href="#" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Sobre nosotros</a>
+          <a href="#" style="font-size:0.85rem;color:#e0e0e0;text-decoration:none;display:block;margin-bottom:4px;">Contacto</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function() {
+      var icons = document.querySelectorAll('#fusionHubHero .fusion-icon');
+      var radius = 170;
+      var startAngles = Array.from(icons).map(icon => parseFloat(icon.getAttribute('data-angle')));
+      function animateFusionIcons(state) {
+        icons.forEach(function(icon, i) {
+          var angle = startAngles[i];
+          if(state === 'fuse') {
+            icon.style.opacity = 0;
+            icon.style.transform = `translate(-50%,-50%) translate(0px,0px) scale(0.7)`;
+          } else if(state === 'spread') {
+            var rad = angle * Math.PI / 180;
+            var x = Math.cos(rad) * radius;
+            var y = Math.sin(rad) * radius;
+            icon.style.opacity = 1;
+            icon.style.transform = `translate(-50%,-50%) translate(${x}px,${y}px) scale(1)`;
+          }
+        });
+      }
+      function fusionLoop() {
+        var el = document.getElementById('fusionHubHero');
+        el.classList.remove('fusion-hide');
+        el.classList.add('fusion-init');
+        animateFusionIcons('fuse');
+        setTimeout(function(){
+          el.classList.remove('fusion-init');
+          el.classList.add('fusion-anim');
+          animateFusionIcons('spread');
+          setTimeout(function(){
+            el.classList.remove('fusion-anim');
+            el.classList.add('fusion-hide');
+            animateFusionIcons('fuse');
+            setTimeout(fusionLoop, 1200);
+          }, 3200);
+        }, 1200);
+      }
+      fusionLoop();
+      window.addEventListener('resize', function() {
+        if(document.getElementById('fusionHubHero').classList.contains('fusion-anim')) {
+          animateFusionIcons('spread');
+        }
+      });
+    })();
+
+    // Module tabs functionality
+    (function() {
+      var tabs = document.querySelectorAll('.module-tab');
+      var contents = document.querySelectorAll('.module-content');
+      
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var module = this.getAttribute('data-module');
+          
+          // Remove active class from all tabs and contents
+          tabs.forEach(function(t) {
+            t.classList.remove('active');
+            t.style.borderBottom = '3px solid #e0e0e0';
+            t.style.background = '#f8f8f8';
+            var icon = t.querySelector('svg path');
+            var span = t.querySelector('span');
+            if (icon) {
+              icon.setAttribute('stroke', '#666');
+            }
+            if (span) {
+              span.style.color = '#666';
+            }
+          });
+          
+          contents.forEach(function(c) {
+            c.style.display = 'none';
+          });
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          this.style.borderBottom = '3px solid #9dd4b8';
+          this.style.background = '#fff';
+          var icon = this.querySelector('svg path');
+          var span = this.querySelector('span');
+          if (icon) {
+            icon.setAttribute('stroke', '#234236');
+          }
+          if (span) {
+            span.style.color = '#234236';
+          }
+          
+          // Show corresponding content
+          var targetContent = document.getElementById(module + '-content');
+          if (targetContent) {
+            targetContent.style.display = 'flex';
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html> 
